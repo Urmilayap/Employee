@@ -1,0 +1,49 @@
+{
+  "name": "nodejs-employee",
+  "version": "1.0.89",
+  "description": "employeeDetails nodejs projects",
+  "main": ".src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Urmilayap/nodejs-employeeDetails.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Urmilayap/nodejs-employeeDetails/issues"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "build": "npm install --production --silent",
+    "test": "nyc --reporter=lcov --report-dir=reports mocha -t 20000 ./test --exit",
+    "lint": "eslint ./src",
+    "lintfix": "eslint ./src --fix"
+  },
+  "dependencies": {
+    "@yapsody/lib-event-publisher": "^1.2.50",
+    "@yapsody/lib-handlers": "^1.0.56",
+    "@yapsody/lib-middlewares": "^1.0.37",
+    "@yapsody/lib-utils": "^1.0.26",
+    "@yapsody/lib-validations": "^2.0.10",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dd-trace": "^3.7.1",
+    "express": "^4.18.2",
+    "helmet": "^5.1.1",
+    "joi": "^17.6.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.7"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "mocha": "^10.1.0",
+    "mocha-junit-reporter": "^2.1.0",
+    "nodemon": "^2.0.20",
+    "nyc": "^15.1.0"
+  }
+}
