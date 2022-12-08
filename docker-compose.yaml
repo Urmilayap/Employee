@@ -1,0 +1,46 @@
+# docker-compose.yml
+version: "2.4"
+
+volumes:
+  db_data:
+
+services:
+  mysql:
+    platform: linux/amd64
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # boilerplate:
+  #   container_name: employeeDetails
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #     args:
+  #       - NPM_TOKEN="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"
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - ENVIRONMENT=yap-local
+  #     - MICROSERVICE_NAME=BOILERPLATE
+  #     - MICROSERVICE_TYPE=com.Urmilayap.nodejs-employeeDetails
+  #     - MICROSERVICE_IP=0.0.0.0
+  #     - APP_HOST=0.0.0.0
+  #     - APP_PORT=3000
+  #     - SWAGGER_PORT=3000
+  #     - MYSQL_HOST=mysql
+  #     - MYSQL_USERNAME=root
+  #     - MYSQL_PASSWORD=root
+  #     - MYSQL_DB_NAME=employeeDetails
+  #   volumes:
+  #     - .:/app:delegated
+  #     - ./:/home/node/app
