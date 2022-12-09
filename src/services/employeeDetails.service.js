@@ -6,16 +6,17 @@ const { sequelizeManager } = require('../managers');
 const {employeeDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
-//>>>>>>>>>>>
-const addEmployee = async ({ first_name,last_name,email_id,phone_no,address }) => employeeDetailsModel.create({
+//Create Employee Details
+const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,employee_id }) => employeeDetailsModel.create({
    first_name,
    last_name,
    email_id,
    phone_no,
-   address
+   address,
+   employee_id
   });
 
-//>>>>>>>>>>>>>>>>
+//Get Employee BY ID
   const getEmployeeById = async ({ id }) => {
    const where = { id };
    const data = await employeeDetailsModel.findOne({
@@ -27,7 +28,7 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address }) =
    return data;
  };
 
-//>>>>>>>>>>>>>>>>>>>
+//Delete Employee by ID
  const deleteEmployee = async ({ id, force_update }) => {
    const data = await getEmployeeById({
      id
@@ -48,16 +49,15 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address }) =
    
   };
 
-//>>>>>>>>>>>>>>>>>>>>
+//Get all Employees List
 const getAllEmployee = async ({ first_name,
    last_name,
    email_id,
    phone_no,
    address,
-   id
+   id,
+   employee_id
    }) => {
-   // const limit = page_size;
-   // const offset = (page_no - 1) * limit;
    const where = { ids };
    if (ids) {
      where.id = ids;
@@ -75,36 +75,9 @@ const getAllEmployee = async ({ first_name,
       email_id,
       phone_no,
       address,
-      id
+      id,
+      employee_id
    });
  };
 
-//  const enableOne = async ({ id }) => {
-//   const item = await getEmployeeById({
-//     id,
-//   });
-//   if (item.status !== STATUS.DISABLED) {
-//     throw error.throwPreconditionFailed({ message: 'Only disabled employees can be enabled' });
-//   }
-
-//   item.status = STATUS.ENABLED;
-//   item.version += 1;
-//   return item.save();
-// };
-
-
-// const disableOne = async ({ id }) => {
-//   const item = await getEmployeeById({
-//     id,
-//   });
-
-//   if (item.status !== STATUS.ENABLED) {
-//     throw error.throwPreconditionFailed({ message: 'Only enabled employees can be disabled' });
-//   }
-
-//   item.status = STATUS.DISABLED;
-//   item.version += 1;
-//   return item.save();
-// };
-  
   module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee } ;

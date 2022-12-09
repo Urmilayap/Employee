@@ -4,16 +4,15 @@ const { checkChanges } = require('@yapsody/lib-utils');
 const config = require('../config/employeeDetails.config.json');
 const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation} = require('../validations');
 const { version } = require('chai');
-//const {employeeDetailsModel, employee} = require('../models');
 
-//create employee details
+
+//create Employee details
   const addEmployee = async (req ,res ,next) => {
     try {
-    const { first_name,last_name,address,email_id,phone_no
+    const { employee_id,first_name,last_name,address,email_id,phone_no
     }  = await employeeValidation.validateAsync(req.body);
-    // const test = await employeeValidation.validateAsync(req.body);
-    // console.log(test);
-    const employee = await employeeDetailsService.addEmployee({ first_name, last_name, email_id, phone_no, address })
+    console.log();
+    const employee = await employeeDetailsService.addEmployee({ first_name, last_name, email_id, phone_no, address,employee_id })
     return success.handler({ employee }, req, res, next);
     } catch (err) {
       switch (err.name) {
@@ -28,35 +27,37 @@ const { version } = require('chai');
     }
   };
 
-  //Get all employees
+  //Get Employee by ID
   const getEmployeeById = async (req, res, next) => {
-    const { employeeId } = await getId.validateAsync(req.params);
-    try {
-      const employee = await employeeDetailsService.getEmployeeById({ id:employeeId });
-      return success.handler({ employee }, req, res, next);
-    }   catch (err) {
-    }
+    const { employeeId } = req.params;
+  try {
+    const id = await getId.validateAsync(employeeId);
+    const employee = await employeeDetailsService.getEmployeeById({ id });
+    return success.handler({ employee }, req, res, next);
+  } catch (err) {
     return error.handler(err, req, res, next);
-  };
-
-
-  //Delete Employee
-  const deleteEmployee = async (req, res, next) => {
-    const { employeeId } = await getId.validateAsync(req.params);
-    const { force_update } = req.query;
-    try {
-      await recoveryParamsValidation.validateAsync(force_update);
-      const employee = await employeeDetailsService.deleteEmployee({
-        id:employeeId,
-        force_update,
-      });
-      return success.handler({ employee }, req, res, next);
-    }  catch (err) {
   }
-  return error.handler(err, req, res, next);
   };
 
-  //Get all Employees
+
+  //Delete Employee by ID
+  const deleteEmployee = async (req, res, next) => {
+    const { employeeId } = req.params;
+  const { force_update } = req.query;
+  try {
+    await recoveryParamsValidation.validateAsync(force_update);
+    const id = await getId.validateAsync(employeeId);
+    const employee = await employeeDetailsService.deleteEmployee({
+      id,
+      force_update,
+    });
+    return success.handler({ employee }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+  };
+
+  //Get all Employees List
   const getAllEmployee = async (req, res, next) => {
     const reqData = { ...req.query };
     if (reqData.ids) {
@@ -77,10 +78,9 @@ const { version } = require('chai');
   };
 
 
-//Update Employee
+//Update Employee by ID
  const updateEmployee = async (req, res, next) => {
   const { employeeId } = req.params;
-  //const enableFlag = req.query.enable;
   try {
     const id = await getId.validateAsync(employeeId);
     const {
@@ -112,8 +112,6 @@ const { version } = require('chai');
 
     item = await item.save();
 
-    // Send difference in event data. Difference will be the changes made in the resource
-    // eventUtils.publishEvent(EventTypes.GetAccountAddressesCount, req, { note, difference });
     return success.handler({ employees: item }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);

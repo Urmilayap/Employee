@@ -8,8 +8,9 @@ USE `employeeDetails`;
 
 SET NAMES utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `employeeDetails` (
+CREATE TABLE IF NOT EXISTS `employees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(5)NOT NULL,
   `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `employeeDetails` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `employeeDetails_uk` (`name`,`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+ ALTER TABLE `employees` ADD `employee_id` int(10) NOT NULL ,
 DELIMITER $$
 USE notes$$
 DROP TRIGGER IF EXISTS notes_on_delete_trigger $$
