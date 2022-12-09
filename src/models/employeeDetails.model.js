@@ -6,6 +6,10 @@ module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
     primaryKey: true,
     autoIncrement: true,
   },
+  employee_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
   phone_no: {
     type: Sequelize.INTEGER,
     allowNull: false,

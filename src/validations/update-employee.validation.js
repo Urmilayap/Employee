@@ -3,6 +3,10 @@ const yapValidations = require('@yapsody/lib-validations');
 
 module.exports = Joi.object()
   .keys({
+    employee_id: yapValidations
+      .id
+      .required()
+      .label('Employee ID'),
     first_name: yapValidations
       .name
       .required()

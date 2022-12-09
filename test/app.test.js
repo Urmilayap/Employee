@@ -13,12 +13,4 @@ describe('Test app', () => {
       });
     response.body.should.have.property('message').which.to.equal('pong');
   });
-
-//   it('server should return 404 NotFound because route does not exist', async () => {
-//     const res = await chai.request(server)
-//       .get('/random-route')
-//       .set(headers);
-
-//     res.should.have.status(404);
-//   });
 });
