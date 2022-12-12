@@ -2205,8 +2205,8 @@ components:
           $ref: '#/components/schemas/MetaDefinition'
     EmployeesListResponse:
       type: object
-       properties:
-         data:
+        properties:
+        data:
           type: object
           properties:
             employees:
@@ -2235,7 +2235,7 @@ components:
                     format: date-time
                   status:
                   type: number
-      meta:
+        meta:
           $ref: '#/components/schemas/MetaDefinition'
 servers:
   - url: 'http://0.0.0.0:3000/employees/'
