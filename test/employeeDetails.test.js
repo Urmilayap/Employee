@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { describe, it, after } = require('mocha');
+const { describe, it, after ,assert} = require('mocha');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../src/index');
@@ -13,6 +13,7 @@ chai.use(chaiHttp);
 
 // eslint-disable-next-line no-unused-vars
 const should = chai.should();
+const expect = chai.expect
 const headers = {
   'whitelabel-id': 1,
   'account-id': 1,
@@ -26,40 +27,40 @@ browsing experience and for analytics and metrics about our visitors both on thi
 const baseUrl = '/employees';
 
 const createTestData = async () => employeeDetailsModel.bulkCreate([{
-  first_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  last_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-   email_id: `test-${Math.floor(100000 + Math.random() * 900000)}`+'@gmail.com',
-   phone_no: `test-${Math.floor(Math.random() * 90000) + 10000}`,
-   address: `test-${Math.floor(100000 + Math.random() * 900000)}`,
+  first_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  last_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  email_id: `${Math.floor(100000 + Math.random() * 900000)}`+'@gmail.com',
+  phone_no: `${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+  address: `${Math.floor(100000 + Math.random() * 900000)}`,
   employee_id: 1,
   deleted: 1,
   deleted_at: new Date(),
 }, {
-  first_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  last_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-   email_id: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-   phone_no: `test-${Math.floor(Math.random() * 9000000000) + 1000000000}`,
-   address: `test-${Math.floor(100000 + Math.random() * 900000)}`,
+  first_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  last_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+   email_id: `${Math.floor(100000 + Math.random() * 900000)}`,
+   phone_no: `${Math.floor(Math.random() * 90000) + 10000}`,
+   address: `${Math.floor(100000 + Math.random() * 900000)}`,
   employee_id: 2,
   deleted: 2,
   deleted_at: new Date(),
 },
 {
-  first_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  last_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  email_id: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  phone_no: `test-${Math.floor(Math.random() * 9000000000) + 1000000000}`,
-  address: `test-${Math.floor(100000 + Math.random() * 900000)}`,
+  first_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  last_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  email_id: `${Math.floor(100000 + Math.random() * 900000)}`,
+  phone_no: `${Math.floor(Math.random() * 90000) + 10000}`,
+  address: `${Math.floor(100000 + Math.random() * 900000)}`,
   employee_id: 3,
   deleted: 3,
   deleted_at: new Date(),
 
 }, {
-  first_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  last_name: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  email_id: `test-${Math.floor(100000 + Math.random() * 900000)}`,
-  phone_no: `test-${Math.floor(Math.random() * 9000000000) + 1000000000}`,
-  address: `test-${Math.floor(100000 + Math.random() * 900000)}`,
+  first_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  last_name: `${Math.floor(100000 + Math.random() * 900000)}`,
+  email_id: `${Math.floor(100000 + Math.random() * 900000)}`,
+  phone_no: `${Math.floor(Math.random() * 90000) + 10000}`,
+  address: `${Math.floor(100000 + Math.random() * 900000)}`,
   employee_id: 4,
   deleted: 4,
   deleted_at: new Date(),
@@ -95,7 +96,7 @@ describe('EmployeeDetails Test Suit', async () => {
         first_name:String(Math.floor(100000 + Math.random() * 900000)),
         last_name: String(Math.floor(100000 + Math.random() * 900000)),
         email_id: String(Math.floor(100000 + Math.random() * 900000))+'@gmail.com',
-        phone_no: String(Math.floor(Math.random() * 90000) + 10000),
+        phone_no: String(Math.floor(Math.random() * 9000000000) + 1000000000),
         address: String(Math.floor(100000 + Math.random() * 900000)),
 
       };
@@ -187,7 +188,6 @@ describe('EmployeeDetails Test Suit', async () => {
     const updatedEmailId =  String(Math.floor(100000 + Math.random() * 900000))+'@gmail.com';
     const updatedAddress = String(Math.floor(100000 + Math.random() * 900000));
     const updatedPhoneNo = String(Math.floor(Math.random() * 90000) + 10000);
-        
     const body = {
       first_name: updatedFirstName,
       last_name: updatedLastName,
@@ -196,8 +196,9 @@ describe('EmployeeDetails Test Suit', async () => {
       address: updatedAddress,
       employee_id:1
     };
-    it('should update a employee name of given id.', async () => {
+    it.only('should update a employee name of given id.', async () => {
       const employee = await employeeDetailsModel.findOne();
+      //const emp = response.body.data.employee;
 
       const res = await chai.request(app)
         .put(`${baseUrl}/${employee.id}`)
@@ -212,22 +213,31 @@ describe('EmployeeDetails Test Suit', async () => {
         .an('object')
         .that
         .has
-        .property('employee')
+        .property('employees')
         .which
          .is
          .an('object')
          .that
-        // .has
-        // .property('name')
-        // .which
+        //  .has
+        //  .property('employees')
+        //  .which
         .is
-        .equal(String(updatedFirstName,updatedLastName,updatedAddress,updatedEmailId,updatedPhoneNo));
+        .equal(String( updatedFirstName,updatedAddress,updatedLastName,updatedEmailId,updatedPhoneNo)) 
+        // expect(emp.first_name).to.equal(updatedFirstName);
+        // expect(emp.last_name).to.equal(updatedLastName);
+        // expect(emp.email_id).to.equal(updatedEmailId);
+        // expect(emp.address).to.equal(updatedAddress);
+        // expect(emp.phone_no).to.equal(updatedPhoneNo);
+        
+        
+        
+      
     });
 
     it('should return NotFound error.', async () => {
       const employee = await employeeDetailsModel.findOne();
       const res = await chai.request(app)
-        .put(`${baseUrl}/${employee.id}`)
+        .put(`/${employee}/${employee.id +1}`)
         .set(headers)
         .send(body);
 
