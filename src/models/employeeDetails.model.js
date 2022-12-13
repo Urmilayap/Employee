@@ -8,6 +8,11 @@ module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
   },
   employee_id: {
     type: Sequelize.INTEGER,
+    foreignKey: true,
+    allowNull: true,
+  },
+  department_id: {
+    type: Sequelize.INTEGER,
     allowNull: true,
   },
   phone_no: {
