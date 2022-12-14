@@ -1,18 +1,13 @@
 //onst { STATUS, VERSION } = require('../consts');
 
 module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
   employee_id: {
     type: Sequelize.INTEGER,
-    foreignKey: true,
     allowNull: true,
   },
-  department_id: {
+  id: {
     type: Sequelize.INTEGER,
+    autoIncrement:true,
     allowNull: true,
   },
   phone_no: {

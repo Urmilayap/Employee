@@ -22,8 +22,8 @@ const getById = async ({ id }) => {
     return department;
   };
 
-  //Delete department by ID
- const deleteDepartment = async ({ id, force_update }) => {
+//Delete department by ID
+const deleteDepartment = async ({ id, force_update }) => {
     const data = await getById({
       id
     });
@@ -43,4 +43,20 @@ const getById = async ({ id }) => {
     
    };
 
-module.exports = { addDepartment, getById, deleteDepartment, } ;
+//Get all Employees List
+const getAll = async ({ department_id,department_name }) => {
+  const where = { ids };
+  if (ids) {
+    where.id = ids;
+  }
+  if (search) {
+    where.department_name = {
+      [Op.like]: `%${search}%`,
+    };
+  }
+  const order = [];
+  order.push([sort_by, sort_order]);
+  return departmentModel.findAll({ department_id,department_name });
+};
+
+module.exports = { addDepartment, getById, deleteDepartment, getAll } ;
