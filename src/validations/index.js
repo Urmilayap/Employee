@@ -4,6 +4,7 @@ const getId = require('./get-id.validation');
 const updateValidation = require('./update-employee.validation');
 const recoveryParamsValidation = require('./recovery-params-validation');
 const departmentValidation = require('./add-Department.validation');
+const updateDepartmentValidation = require('./update-department.validation');
 
 module.exports = {
   employeeValidation,
@@ -12,4 +13,5 @@ module.exports = {
   updateValidation,
   recoveryParamsValidation,
   departmentValidation,
+  updateDepartmentValidation,
 };
