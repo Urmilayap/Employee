@@ -3,23 +3,32 @@ const { error } = require('@yapsody/lib-handlers');
 const { Op ,ids, search ,sort_by ,sort_order} = require('sequelize');
 const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
-const {departmentModel} = sequelizeManager;
+const {departmentModel,employeeDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_id,department_name }) => departmentModel.create({ 
-    department_id,department_name });
+const addDepartment = async ({ department_id,department_name,employee_id }) => departmentModel.create({ 
+    department_id,department_name,employee_id });
 
 //Get Department BY ID
 const getById = async ({ id }) => {
-    const where = { id };
+    const where = { department_id : id};
+    console.log(where);
     const department = await departmentModel.findOne({
       where,
+      include: [
+        {
+          model: employeeDetailsModel,
+        },
+      ],
     });
+    console.log("--------------------->",department);
     if (!department) {
       return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
     }
+    
     return department;
+    
   };
 
 //Delete department by ID

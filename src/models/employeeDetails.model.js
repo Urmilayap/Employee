@@ -3,16 +3,8 @@
 module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
   employee_id: {
     type: Sequelize.INTEGER,
-    allowNull: true,
-  },
-  id: {
-    type: Sequelize.INTEGER,
     autoIncrement:true,
-    allowNull: true,
-  },
-  phone_no: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
+    primaryKey:true,
   },
   first_name: {
     type: Sequelize.STRING(255),
@@ -24,6 +16,10 @@ module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
   },
   email_id: {
     type: Sequelize.STRING(255),
+    allowNull: false,
+  },
+  phone_no: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   address: {
