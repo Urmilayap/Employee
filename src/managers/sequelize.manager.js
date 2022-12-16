@@ -6,7 +6,7 @@ const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, con
   host: config.MYSQL_HOST,
   port: config.MYSQL_PORT,
   dialect: 'mysql',
-  logging: false,
+  logging: true,
   dialectOptions: {
     charset: 'utf8mb4',
   },
@@ -22,6 +22,10 @@ const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, con
 
 const employeeDetailsModel = employee(sequelize, Sequelize);
 const departmentModel = department(sequelize,Sequelize);
+
+departmentModel.hasMany(employeeDetailsModel, { foreignKey: 'employee_id' });
+employeeDetailsModel.belongsTo(departmentModel, { foreignKey: 'employee_id' });
+
 
 module.exports = {
   sequelize,

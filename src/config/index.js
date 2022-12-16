@@ -14,8 +14,8 @@ if (process.env.ENVIRONMENT === 'yap-local') {
     MYSQL_HOST: process.env.MYSQL_HOST || '0.0.0.0',
     MYSQL_USERNAME: process.env.MYSQL_USERNAME || 'root',
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || 'root',
-    MYSQL_DB_NAME: process.env.MYSQL_DB_NAME || 'employeeDetails',
-    MYSQL_DB_NAME: process.env.MYSQL_DB_NAME || 'departments',
+    MYSQL_DB_NAME: process.env.MYSQL_DB_NAME || 'Employee Details',
+    //MYSQL_DB_NAME: process.env.MYSQL_DB_NAME || 'departments',
     MYSQL_PORT: process.env.MYSQL_PORT || 3306,
   };
   

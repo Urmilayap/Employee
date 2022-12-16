@@ -4,15 +4,15 @@ const { checkChanges } = require('@yapsody/lib-utils');
 const config = require('../config/employeeDetails.config.json');
 const config1 = require('../config/department.config.json');
 
-const { departmentValidation,getId,getListValidation,updateDepartmentValidation} = require('../validations');
+const { departmentValidation,getId,getListValidation,updateDepartmentValidation,recoveryParamsValidation} = require('../validations');
 const { version } = require('chai');
 
 
 //create Department
   const addDepartment = async (req ,res ,next) => {
     try {
-    const { department_id,department_name }  = await departmentValidation.validateAsync(req.body);
-    const department = await departmentService.addDepartment({ department_id,department_name })
+    const { department_name }  = await departmentValidation.validateAsync(req.body);
+    const department = await departmentService.addDepartment({ department_name })
     return success.handler({ department }, req, res, next);
     } catch (err) {
       switch (err.name) {
