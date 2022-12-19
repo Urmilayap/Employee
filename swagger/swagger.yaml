@@ -908,7 +908,7 @@ paths:
                   required:
                   - error
                   - meta
-                  x-examples:
+            x-examples:
                     example-1:
                     error:
                       code: 400
@@ -925,13 +925,13 @@ paths:
                     meta:
                       version: 1
                       timestamp: '2021-08-25T11:31:57.827Z'
-              examples:
-                ValidationError:
-                  value:
-                    error:
-                      code: 400
-                      key: ValidationError
-                      message: ValidationError
+                    examples:
+                    ValidationError:
+                    value:
+                      error:
+                        code: 400
+                        key: ValidationError
+                        message: ValidationError
                       fields:
                         - type: number.base
                           message: '"Id" must be a number'
@@ -940,7 +940,7 @@ paths:
                         message: ValidationError
                         message_presets: {}
                         options: []
-                    meta:
+                      meta:
                       version: 1
                       timestamp: '2021-08-25T11:31:57.827Z'
           '404':
@@ -991,11 +991,11 @@ paths:
                     meta:
                       type: object
                       properties:
-                      version:
-                        type: number
-                      timestamp:
-                        type: string
-                        minLength: 1
+                        version:
+                          type: number
+                        timestamp:
+                          type: string
+                          minLength: 1
                       required:
                       - version
                       - timestamp
@@ -1003,7 +1003,7 @@ paths:
                   - error
                   - meta
                   x-examples:
-                  example-1:
+                    example-1:
                     error:
                       code: 404
                       key: NotFound
@@ -1053,6 +1053,949 @@ paths:
                       version: 1
                       timestamp: '2021-08-25T09:30:07.050Z'
         operationId: GetEmployee
+      put:
+          tags:
+          - Employees
+          summary: Update Employee
+          description: This api returns updated employee with provided id after updating with provided body.
+          parameters:
+          - name: first_name
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: last_name
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: email_id
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: address
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: phone_no
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: integer
+              default: 1
+          - name: employee_id
+            in: header
+            required: true
+            schema:
+                minimum: 1
+                type: integer
+                default: 1
+          - name: employeeId
+            in: path
+            required: true
+            schema:
+              minimum: 1
+              type: integer
+              default: 1
+          - schema:
+             type: string
+            in: query
+            name: enable
+            description: 'true: Enables employee; false: Disables N'
+          responses:
+            '200':
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:   
+                          employee:
+                            type: object
+                            properties:
+                              id:
+                                type: number
+                              employee_id:
+                                type: number
+                              first_name:
+                                type: string
+                                minLength: 1
+                              last_name:
+                                type: string
+                                minLength: 1
+                              email_id:
+                                type: string
+                                minLength: 1
+                              address:
+                                type: string
+                                minLength: 1
+                              phone_no:
+                                type: number
+                              deleted:
+                                type: number
+                              created_at:
+                                type: string
+                                minLength: 1
+                              updated_at:
+                                type: string
+                                minLength: 1
+                              deleted_at: {}
+                            required:
+                              - first_name
+                              - last_name
+                              - email_id
+                              - address
+                              - phone_no
+                              - version
+                              - employee_id
+                              - deleted
+                              - created_at
+                              - updated_at
+                        required:
+                          - employee
+                      meta:
+                        type: object
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                        required:
+                          - version
+                          - timestamp
+                    required:
+                        - data
+                        - meta
+                    x-examples:
+                      example-1:
+                      data:
+                      employee:
+                        first_name: updated string
+                        last_name: updated string
+                        email_id: string
+                        phone_no: number
+                        address: updated string
+                        employee_id: number
+                        version: 2
+                        status: 1
+                        deleted: 0
+                        created_at: '2021-08-25T09:34:42.000Z'
+                        updated_at: '2021-08-25T12:24:37.726Z'
+                        deleted_at: null
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T12:24:37.806Z'
+                  examples:
+                    UpdateEmployeeResponse:
+                      value:
+                        data:
+                          employee:
+                          first_name: updated string
+                          last_name: updated string
+                          email_id: string
+                          phone_no: number
+                          address: updated string
+                          employee_id: number
+                          version: 2
+                          status: 1
+                          deleted: 0
+                          created_at: '2021-08-25T09:34:42.000Z'
+                          updated_at: '2021-08-25T12:24:37.726Z'
+                          deleted_at: null
+                        meta:
+                          version: 1
+                          timestamp: '2021-08-25T12:24:37.806Z'
+            '400':
+              description: BAD REQUEST
+              content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          code:
+                            type: number
+                          key:
+                            type: string
+                            minLength: 1
+                          message:
+                            type: string
+                            minLength: 1
+                          fields:
+                            type: array
+                            uniqueItems: true
+                            minItems: 1
+                          items:
+                            required:
+                            - type
+                            - message
+                            properties:
+                              type:
+                                type: string
+                                minLength: 1
+                              message:
+                                type: string
+                                minLength: 1
+                          message_presets:
+                            type: object
+                            properties: {}
+                          recovery:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                  type: object
+                                  properties: {}
+                              options:
+                                type: array
+                                items:
+                                  properties: {}
+                            required:
+                              - message
+                              - message_presets
+                              - options
+                        required:
+                          - code
+                          - key
+                          - message
+                          - fields
+                          - message_presets
+                          - recovery
+                      meta:
+                        type: object 
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                        required:
+                          - version
+                          - timestamp
+                    required:
+                        - error
+                        - meta
+                    x-examples:
+                      example-1:
+                      error:
+                      code: 400
+                      key: ValidationError
+                      message: ValidationError
+                      fields:
+                        - type: number.base
+                          message: '"Id" must be a number'
+                      message_presets: {}
+                      recovery:
+                        message: ValidationError
+                        message_presets: {}
+                        options: []
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T11:31:57.827Z'
+                  examples:
+                      ValidationError:
+                        value:
+                          error:
+                            code: 400
+                            key: ValidationError
+                            message: ValidationError
+                            fields:
+                              - type: number.base
+                                message: '"Id" must be a number'
+                            message_presets: {}
+                            recovery:
+                              message: ValidationError
+                              message_presets: {}
+                              options: []
+                          meta:
+                            version: 1
+                            timestamp: '2021-08-25T11:31:57.827Z'
+            '404':
+              description: NOT FOUND
+              content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          code:
+                            type: number
+                          key:
+                            type: string
+                            minLength: 1
+                          message:
+                            type: string
+                            minLength: 1
+                          message_presets:
+                            type: object
+                            properties: {}
+                          recovery:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                type: object
+                              properties: {}
+                              options:
+                                type: array
+                              items:
+                                properties: {}
+                            required:
+                              - message
+                              - message_presets
+                              - options
+                        required:
+                          - code
+                          - key
+                          - message
+                          - message_presets
+                          - recovery
+                      meta:
+                        type: object
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                        required:
+                          - version
+                          - timestamp
+                    required:
+                      - error
+                      - meta
+                    x-examples:
+                      example-1:
+                      error:
+                        code: 404
+                        key: Employee Not Found
+                        message: Employee Not Found
+                        message_presets: {}
+                        recovery:
+                          message: Employee Not Found
+                          message_presets: {}
+                          options: []
+                      meta:
+                        version: 1
+                        timestamp: '2021-08-25T11:32:36.468Z'
+                  examples:
+                    EmployeeNotFound:
+                      value:
+                        error:
+                          code: 404
+                          key: EmployeeNotFound
+                          message: Employee Not Found
+                          message_presets: {}
+                          recovery:
+                            message: Employee Not Found
+                            message_presets: {}
+                            options: []
+                        meta:
+                          version: 1
+                          timestamp: '2021-08-25T11:32:36.468Z'
+            '412':
+              description: PRECONDITION FAILED
+              content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    x-examples:
+                      example-1:
+                      error:
+                      code: 412
+                      key: PreconditionFailed
+                      message: 'object has been updated since you last opened, do you want to reload the new version or overwrite existing changes done?'
+                      message_presets: {}
+                      recovery:
+                        message: 'object has been updated since you last opened, do you want to reload the new version or overwrite existing changes done?'
+                        message_presets: {}
+                        options: []
+                      difference:
+                        version: 2
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T12:25:54.286Z'
+                    properties:
+                      error:
+                        type: object
+                        required:
+                        - code
+                        - key
+                        - message
+                        - message_presets
+                        - recovery
+                        properties:
+                          code:
+                            type: number
+                          key:
+                            type: string
+                            minLength: 1
+                          message:
+                            type: string
+                            minLength: 1
+                          message_presets:
+                            type: object
+                          recovery:
+                            type: object
+                            required:
+                            - message
+                            - message_presets
+                            - options
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                type: object
+                              options:
+                                type: array
+                              items:
+                                type: object
+                          difference:
+                            type: object
+                      meta:
+                        type: object
+                        required:
+                          - version
+                          - timestamp
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                    required:
+                    - error
+                    - meta
+                  examples:
+                    UpdateConflict:
+                      value:
+                        error:
+                        code: 412
+                        key: PreconditionFailed
+                        message: 'object has been updated since you last opened, do you want to reload the new version or overwrite existing changes done?'
+                        message_presets: {}
+                        recovery:
+                          message: 'object has been updated since you last opened, do you want to reload the new version or overwrite existing changes done?'
+                          message_presets: {}
+                          options: []
+                        difference:
+                        version: 2
+                        meta:
+                          version: 1
+                          timestamp: '2021-08-25T12:25:54.286Z'
+                    AlreadyEnabledError:
+                      value:
+                        error:
+                        code: 412
+                        key: PreconditionFailed
+                        message: Only disabled note can be enabled
+                        message_presets: {}
+                        recovery:
+                          message: Only disabled note can be enabled
+                          message_presets: {}
+                        options: []
+                        meta:
+                        version: 1
+                        timestamp: '2021-08-25T12:27:18.839Z'
+                    AlreadyDisabled:
+                     value:
+                      error:
+                      code: 412
+                      key: PreconditionFailed
+                      message: Only enabled note can be disabled
+                      message_presets: {}
+                      recovery:
+                        message: Only enabled note can be disabled
+                        message_presets: {}
+                        options: []
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T12:28:04.339Z'
+            '500':
+              description: ERROR
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/500'
+                  examples:
+                    InternalServerError:
+                     value:
+                      error:
+                      code: 500
+                      key: InternalServerError
+                      message: Internal Server Error
+                      message_presets: {}
+                      recovery:
+                        message: Internal Server Error
+                        message_presets: {}
+                        options: []
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T09:30:07.050Z'
+          operationId: UpdateEmployee
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  description: ''
+                  type: object
+                  x-examples:
+                    example-1:
+                    first_name: updated string
+                    last_name: updated string
+                    email_id:  string
+                    address: updated string
+                    phone_no: number
+                    employee_id: number
+                    version: 1
+                  properties:
+                    first_name:
+                      type: string
+                      minLength: 1
+                    last_name:
+                      type: string
+                      minLength: 1
+                    email_id:
+                      type: string
+                      minLength: 1
+                    address:
+                      type: string
+                      minLength: 1
+                    phone_no:
+                      type: number
+                      minLength: 1
+                    employee_id:
+                      type: number
+                      minLength: 1
+                    version:
+                      type: number
+                  required:
+                    - version
+                examples:
+                  UpdateEmployee:
+                    value:
+                      first_name: updated string
+                      last_name: updated string
+                      email_id:  string
+                      address: updated string
+                      phone_no: number
+                      employee_id: number
+                      version: 1
+      delete:
+          tags:
+          - Employees
+          summary: Delete Employee
+          description: This will delete a employee by provided id.
+          parameters:
+          - name: first_name
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: last_name
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: email_id
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: address
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: string
+              default: 1
+          - name: phone_no
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: integer
+              default: 1
+          - name: employee_id
+            in: header
+            required: true
+            schema:
+              minimum: 1
+              type: integer
+              default: 1
+          - name: employeeId
+            in: path
+            required: true
+            schema:
+              minimum: 1
+              type: integer
+              default: 1
+          - name: force_update
+            in: query
+            schema:
+              type: boolean
+              default: false
+          responses:
+            '200':
+             description: OK
+             content:
+              application/json:
+                schema:
+                 $ref: '#/components/schemas/EmployeeResponse'
+            '400':
+              description: BAD REQUEST
+              content:
+               application/json:
+                schema:
+                  description: ''
+                  type: object
+                  properties:
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                        key:
+                          type: string
+                          minLength: 1
+                        message:
+                            type: string
+                            minLength: 1
+                        fields:
+                            type: array
+                            uniqueItems: true
+                            minItems: 1
+                            items:
+                              required:
+                                - type
+                                - message
+                              properties:
+                                type:
+                                  type: string
+                                  minLength: 1
+                                message:
+                                  type: string
+                                  minLength: 1
+                        message_presets:
+                            type: object
+                            properties: {}
+                        recovery:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                type: object
+                                properties: {}
+                              options:
+                                type: array
+                              items:
+                                properties: {}
+                            required:
+                              - message
+                              - message_presets
+                              - options
+                      required:
+                            - code
+                            - key
+                            - message
+                            - fields
+                            - message_presets
+                            - recovery
+                    meta:  
+                      type: object
+                      properties:
+                        version:
+                          type: number
+                        timestamp:
+                          type: string
+                          minLength: 1
+                      required:
+                          - version
+                          - timestamp
+                  required:
+                  - error
+                  - meta
+                  x-examples:
+                    example-1:
+                      error:
+                        code: 400
+                        key: ValidationError
+                        message: ValidationError
+                        fields:
+                          - type: number.base
+                            message: '"Id" must be a number'
+                        message_presets: {}
+                        recovery:
+                          message: ValidationError
+                          message_presets: {}
+                          options: []
+                      meta:
+                        version: 1
+                        timestamp: '2021-08-25T11:31:57.827Z'
+                examples:
+                  ValidationError:
+                    value:
+                      error:
+                        code: 400
+                        key: ValidationError
+                        message: ValidationError
+                        fields:
+                          - type: number.base
+                            message: '"Id" must be a number'
+                        message_presets: {}
+                        recovery:
+                          message: ValidationError
+                          message_presets: {}
+                          options: []
+                      meta:
+                        version: 1
+                        timestamp: '2021-08-25T11:31:57.827Z'
+            '404':
+              description: NOT FOUND
+              content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          code:
+                            type: number
+                          key:
+                            type: string
+                            minLength: 1
+                          message:
+                            type: string
+                            minLength: 1
+                          message_presets:
+                            type: object
+                            properties: {}
+                          recovery:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                type: object
+                                properties: {}
+                              options:
+                                type: array
+                                items:
+                                  properties: {}
+                            required:
+                              - message
+                              - message_presets
+                              - options
+                        required:
+                          - code
+                          - key
+                          - message
+                          - message_presets
+                          - recovery
+                      meta:
+                        type: object
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                        required:
+                            - version
+                            - timestamp
+                    required:
+                        - error
+                        - meta
+                    x-examples:
+                      example-1:
+                      error:
+                        code: 404
+                        key: EmployeeNotFound
+                        message: Employee Not Found
+                        message_presets: {}
+                        recovery:
+                          message: Employee Not Found
+                          message_presets: {}
+                          options: []
+                      meta:
+                      version: 1
+                      timestamp: '2021-08-25T11:32:36.468Z'
+                  examples:
+                   EmployeeNotFound:
+                    value:
+                      error:
+                        code: 404
+                        key: EmployeeNotFound
+                        message: Employee Not Found
+                        message_presets: {}
+                        recovery:
+                          message: Employee Not Found
+                          message_presets: {}
+                          options: []
+                      meta:
+                        version: 1
+                        timestamp: '2021-08-25T11:32:36.468Z'
+            '412':
+             description: PRECONDITION FAILED
+             content:
+                application/json:
+                  schema:
+                    description: ''
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          code:
+                            type: number
+                          key:
+                            type: string
+                            minLength: 1
+                          message:
+                            type: string
+                            minLength: 1
+                          message_presets:
+                            type: object
+                            properties: {}
+                          recovery:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                minLength: 1
+                              message_presets:
+                                type: object
+                                properties: {}
+                              options:
+                                type: array
+                                items:
+                                  properties: {}
+                            required:
+                              - message
+                              - message_presets
+                              - options
+                        required:
+                          - code
+                          - key
+                          - message
+                          - message_presets
+                          - recovery
+                      meta:
+                        type: object
+                        properties:
+                          version:
+                            type: number
+                          timestamp:
+                            type: string
+                            minLength: 1
+                        required:
+                        - version
+                        - timestamp
+                    required:
+                    - error
+                    - meta
+                    x-examples:
+                      example-1:
+                        error:
+                          code: 412
+                          key: PreconditionFailed
+                          message: Enabled employee can't be deleted
+                          message_presets: {}
+                          recovery:
+                            message: Enabled employee can't be deleted
+                            message_presets: {}
+                            options: []
+                        meta:
+                          version: 1
+                          timestamp: '2021-08-25T12:34:56.557Z'
+                  examples:
+                    PreconditionFailed:
+                      value:
+                        error:
+                          code: 412
+                          key: PreconditionFailed
+                          message: Enabled employee can't be deleted
+                          message_presets: {}
+                          recovery:
+                        message: Enabled employee can't be deleted
+                        message_presets: {}
+                        options:
+                          - name: force
+                            preset_key: common_cancel_btn
+                            is_default: 'false'
+                            recovery_param:
+                              method: delete
+                              path: /employees/1
+                              params: force_update=true
+                              body: ''
+                          - name: cancel
+                            preset_key: common_cancel_btn
+                            is_default: 'true'
+                            recovery_param: {}
+                        meta:
+                         version: 1
+                         timestamp: '2021-08-25T12:34:56.557Z'
+            '500':
+              description: ERROR
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/500'
+                  examples:
+                    InternalServerError:
+                      value:
+                        error:
+                          code: 500
+                          key: InternalServerError
+                          message: Internal Server Error
+                          message_presets: {}
+                          recovery:
+                            message: Internal Server Error
+                            message_presets: {}
+                            options: []
+                        meta:
+                          version: 1
+                          timestamp: '2021-08-25T09:30:07.050Z'
+          operationId: DeleteEmployee  
 components:
   schemas:
     '400':
