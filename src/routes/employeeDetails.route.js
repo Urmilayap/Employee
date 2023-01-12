@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {employeeDetailsController} = require('../controllers');
-const { checkEmployeeDetails }  = require('../middlewares/test');
+const { checkEmployeeDetails }  = require('../middlewares/employeeDetails-validator.middleware');
 
 
 const employeeDetailsRoutes = express.Router({});
