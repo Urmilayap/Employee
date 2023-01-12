@@ -10,7 +10,8 @@ const { version } = require('chai');
   const addEmployee = async (req ,res ,next) => {
     try {
     const { employee_id,first_name,last_name,address,email_id,phone_no
-    }  = await employeeValidation.validateAsync(req.body);
+     }  = 
+     await employeeValidation.validateAsync(req.body);
     console.log();
     const employee = await employeeDetailsService.addEmployee({ first_name, last_name, email_id, phone_no, address,employee_id })
     return success.handler({ employee }, req, res, next);
