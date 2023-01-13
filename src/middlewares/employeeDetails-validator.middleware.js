@@ -18,10 +18,9 @@ try {
             .required(),
         email_id: Joi.string()
             .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }), 
-        phone_no: Joi.number()
-            .integer()
-            .min(5)
-            .max(10)
+        phone_no: Joi.string()
+            .length(5)
+            .pattern(/^[0-9]+$/)
             .required(),
         address: Joi.string()
             .alphanum()
