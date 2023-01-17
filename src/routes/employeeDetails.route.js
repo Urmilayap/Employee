@@ -7,6 +7,7 @@ const { checkEmployeeDetails }  = require('../middlewares/employeeDetails-valida
 const employeeDetailsRoutes = express.Router({});
 
 employeeDetailsRoutes.post('/register', checkEmployeeDetails ,employeeDetailsController.addEmployee);
+employeeDetailsRoutes.post('/', employeeDetailsController.multipleUsers);
 employeeDetailsRoutes.get('/',employeeDetailsController.getAllEmployee);
 employeeDetailsRoutes.get('/:employeeId/',employeeDetailsController.getEmployeeById);
 employeeDetailsRoutes.delete('/:employeeId/',employeeDetailsController.deleteEmployee);

@@ -2,7 +2,7 @@ const { employeeDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
 const { checkChanges } = require('@yapsody/lib-utils');
 const config = require('../config/employeeDetails.config.json');
-const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation} = require('../validations');
+const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation} = require('../validations');
 const { version } = require('chai');
 
 
@@ -10,11 +10,30 @@ const { version } = require('chai');
   const addEmployee = async (req ,res ,next) => {
     try {
     const { employee_id,first_name,last_name,address,email_id,phone_no
-     }  = req.body;
-    //  await employeeValidation.validateAsync(req.body);
+     }  = await employeeValidation.validateAsync(req.body);
     console.log();
     const employee = await employeeDetailsService.addEmployee({ first_name, last_name, email_id, phone_no, address,employee_id })
     return success.handler({ employee }, req, res, next);
+    } catch (err) {
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          err.custom_key = 'employeeDetailsConflict';
+          err.message = `employee with name ${req.body.name} already exists`;
+          break;
+        default:
+          break;
+      }
+      return error.handler(err, req, res, next);
+    }
+  };
+
+  const multipleUsers = async (req ,res ,next) => {
+    console.log(req.body);
+    try {
+    const validateBody = await multipleUserValidation.validateAsync(req.body);
+    console.log("-------------->",validateBody);
+    const update = await employeeDetailsService.multipleUsers(req.body)
+    return success.handler({ update }, req, res, next);
     } catch (err) {
       switch (err.name) {
         case 'SequelizeUniqueConstraintError':
@@ -118,4 +137,4 @@ const { version } = require('chai');
     return error.handler(err, req, res, next);
   }
   };
- module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee};
+ module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee, multipleUsers};
