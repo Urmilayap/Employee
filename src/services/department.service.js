@@ -7,8 +7,8 @@ const {departmentModel,employeeDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_id,department_name,employee_id }) => departmentModel.create({ 
-    department_id,department_name,employee_id });
+const addDepartment = async ({ department_name, department_id, employee_id }) => departmentModel.create({ 
+  department_name, department_id, employee_id });
 
 //Get Department BY ID
 const getById = async ({ id }) => {
@@ -52,20 +52,16 @@ const deleteDepartment = async ({ id, force_update }) => {
     
    };
 
-//Get all Employees List
-const getAll = async ({ department_id,department_name }) => {
-  const where = { ids };
-  if (ids) {
-    where.id = ids;
-  }
-  if (search) {
-    where.department_name = {
-      [Op.like]: `%${search}%`,
-    };
-  }
-  const order = [];
-  order.push([sort_by, sort_order]);
-  return departmentModel.findAll({ department_id,department_name });
+//Get all departmentList
+const getAll = async ({ page_size, page_no }) => {
+  console.log({page_no,page_size});
+  const limit = page_size;
+  const offset = (page_no - 1) * limit;
+   //const end = page_no*limit;
+  //  const pagi = res.data.departments;
+  //  console.log(pagi);
+
+  return departmentModel.findAll({  offset, limit });
 };
 
 module.exports = { addDepartment, getById, deleteDepartment, getAll } ;
