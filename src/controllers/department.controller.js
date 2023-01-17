@@ -10,9 +10,11 @@ const { version } = require('chai');
 
 //create Department
   const addDepartment = async (req ,res ,next) => {
+    console.log(req.body);
     try {
-    const { department_name }  = await departmentValidation.validateAsync(req.body);
-    const department = await departmentService.addDepartment({ department_name })
+    const validate  = await departmentValidation.validateAsync(req.body);
+    console.log(validate);
+    const department = await departmentService.addDepartment(validate);
     return success.handler({ department }, req, res, next);
     } catch (err) {
       switch (err.name) {
@@ -60,13 +62,12 @@ const deleteDepartment = async (req, res, next) => {
   //Get all Departments List
   const getAll = async (req, res, next) => {
     const reqData = { ...req.query };
-    if (reqData.ids) {
-      reqData.ids = reqData.ids.split(';');
-    }
+    console.log(reqData);
+    
     try {
-      const { department_id,department_name } = await getListValidation.validateAsync(reqData);
-  
-      const departments = await departmentService.getAll({ department_id,department_name });
+      const { page_size,page_no } = await getListValidation.validateAsync(reqData);
+      console.log(reqData);
+      const departments = await departmentService.getAll({ page_size, page_no,});
       return success.handler({ departments }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);

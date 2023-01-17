@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
 
 
 CREATE TABLE IF NOT EXISTS `employees` (
-  `employee_id` int(5)NOT NULL,
+  `employee_id` int(5)NOT NULL AUTO_INCREMENT,
   `department_id` int(5) NOT NULL,
   `first_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
