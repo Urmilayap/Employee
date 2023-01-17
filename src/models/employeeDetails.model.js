@@ -3,7 +3,7 @@
 module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
   employee_id: {
     type: Sequelize.INTEGER,
-    autoIncrement:true,
+    autoIncrement:false,
     primaryKey:true,
   },
   first_name: {

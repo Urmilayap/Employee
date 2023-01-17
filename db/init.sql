@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS `departments` (
 
 
 CREATE TABLE IF NOT EXISTS `employees` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
   `employee_id` int(5)NOT NULL,
   `department_id` int(5) NOT NULL,
   `first_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -29,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-   PRIMARY KEY (`id`)
+   PRIMARY KEY (`employee_id`)
 );
 
 ALTER TABLE employees

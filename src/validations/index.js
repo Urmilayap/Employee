@@ -5,6 +5,7 @@ const updateValidation = require('./update-employee.validation');
 const recoveryParamsValidation = require('./recovery-params-validation');
 const departmentValidation = require('./add-Department.validation');
 const updateDepartmentValidation = require('./update-department.validation');
+const multipleUserValidation = require('./add-multiple.validation');
 
 module.exports = {
   employeeValidation,
@@ -14,4 +15,5 @@ module.exports = {
   recoveryParamsValidation,
   departmentValidation,
   updateDepartmentValidation,
+  multipleUserValidation
 };

@@ -16,6 +16,14 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
    employee_id
   });
 
+  const multipleUsers = async (employees) => { 
+    console.log(employees);
+   const data =  await employeeDetailsModel.bulkCreate(employees)
+   return data;
+
+};
+ 
+
 //Get Employee BY ID
   const getEmployeeById = async ({ id }) => {
    const where = { id };
@@ -80,4 +88,4 @@ const getAllEmployee = async ({ first_name,
    });
  };
 
-  module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee } ;
+  module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers} ;
