@@ -2,14 +2,13 @@ GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'secret';
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' IDENTIFIED BY 'secret';
 FLUSH PRIVILEGES;
 
-create database if not exists `Employee Details`;
+create database if not exists `Employees`;
 
-USE `Employee Details`;
+USE `Employees`;
 
-SET NAMES utf8mb4;
 CREATE TABLE IF NOT EXISTS `departments` (
   `department_id` int NOT NULL AUTO_INCREMENT,
-  `department_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department_name` varchar(255) NOT NULL UNIQUE,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
@@ -19,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
 
 CREATE TABLE IF NOT EXISTS `employees` (
   `employee_id` int(5)NOT NULL AUTO_INCREMENT,
-  `department_id` int(5) NOT NULL,
+  `department_id` int(20) ,
   `first_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,

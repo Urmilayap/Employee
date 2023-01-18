@@ -9,10 +9,11 @@ const { version } = require('chai');
 //create Employee details
   const addEmployee = async (req ,res ,next) => {
     try {
-    const { employee_id,first_name,last_name,address,email_id,phone_no
+      console.log('--------->',req.body);
+    const { employee_id,department_id,first_name,last_name,address,email_id,phone_no,
      }  = await employeeValidation.validateAsync(req.body);
-    console.log();
-    const employee = await employeeDetailsService.addEmployee({ first_name, last_name, email_id, phone_no, address,employee_id })
+    const employee = await employeeDetailsService.addEmployee({ employee_id,department_id,first_name, last_name, email_id, phone_no, address, })
+    console.log("------------>",employee);
     return success.handler({ employee }, req, res, next);
     } catch (err) {
       switch (err.name) {
@@ -84,13 +85,9 @@ const { version } = require('chai');
       reqData.ids = reqData.ids.split(';');
     }
     try {
-      const {
-        first_name,last_name,address,email_id,phone_no
-      } = await getListValidation.validateAsync(reqData);
+      const { department_id } = await getListValidation.validateAsync(reqData);
   
-      const employees = await employeeDetailsService.getAllEmployee({
-        first_name,last_name,address,email_id,phone_no 
-      });
+      const employees = await employeeDetailsService.getAllEmployee({ department_id });
       return success.handler({ employees }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);

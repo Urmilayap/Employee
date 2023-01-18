@@ -13,7 +13,7 @@ const { version } = require('chai');
     console.log(req.body);
     try {
     const validate  = await departmentValidation.validateAsync(req.body);
-    console.log(validate);
+    console.log("------------>",validate);
     const department = await departmentService.addDepartment(validate);
     return success.handler({ department }, req, res, next);
     } catch (err) {
@@ -67,7 +67,9 @@ const deleteDepartment = async (req, res, next) => {
     try {
       const { page_size,page_no } = await getListValidation.validateAsync(reqData);
       console.log(reqData);
-      const departments = await departmentService.getAll({ page_size, page_no,});
+      const departments = await departmentService.getAll({ page_size, page_no } );
+      
+      
       return success.handler({ departments }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);
