@@ -1,14 +1,14 @@
 const yapUtil = require('@yapsody/lib-utils');
 const { error } = require('@yapsody/lib-handlers');
-const { Op ,ids, search ,sort_by ,sort_order} = require('sequelize');
+const { Op } = require('sequelize');
 const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
 const {departmentModel,employeeDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_name, department_id, employee_id }) => departmentModel.create({ 
-  department_name, department_id, employee_id });
+const addDepartment = async ({ department_name, department_id }) => departmentModel.create({ 
+  department_name, department_id });
 
 //Get Department BY ID
 const getById = async ({ id }) => {
@@ -53,14 +53,22 @@ const deleteDepartment = async ({ id, force_update }) => {
    };
 
 //Get all departmentList
-const getAll = async ({ page_size, page_no }) => {
+const getAll = async ({ 
+  page_size, 
+  page_no}) => {
   console.log({page_no,page_size});
   const limit = page_size;
-  const offset = (page_no - 1) * limit;
-   //const end = page_no*limit;
-  //  const pagi = res.data.departments;
-  //  console.log(pagi);
+  const offset = (page_no - 1) * limit; 
 
+  // const where = {
+  //   departmentName,
+  // };
+
+  // if (search) {
+  //   where.name = {
+  //     [Op.like]: `%${search}%`,
+  //   };
+  // }
   return departmentModel.findAll({  offset, limit });
 };
 

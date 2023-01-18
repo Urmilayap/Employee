@@ -6,6 +6,8 @@ try {
     const { first_name, last_name, email_id, phone_no, address } = req.body;
     console.log(req.body);
     const schema = Joi.object({
+        employee_id: Joi.number(),
+        department_id: Joi.number(),
         first_name: Joi.string()
             .alphanum()
             .min(3)

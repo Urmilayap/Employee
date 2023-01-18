@@ -7,13 +7,14 @@ const {employeeDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Employee Details
-const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,employee_id }) => employeeDetailsModel.create({
+const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,employee_id, department_id }) => employeeDetailsModel.create({
    first_name,
    last_name,
    email_id,
    phone_no,
    address,
-   employee_id
+   employee_id,
+   department_id
   });
 
   const multipleUsers = async (employees) => { 
@@ -58,34 +59,14 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
   };
 
 //Get all Employees List
-const getAllEmployee = async ({ first_name,
-   last_name,
-   email_id,
-   phone_no,
-   address,
-   id,
-   employee_id
-   }) => {
-   const where = { ids };
-   if (ids) {
-     where.id = ids;
-   }
-   if (search) {
-     where.first_name = {
-       [Op.like]: `%${search}%`,
-     };
-   }
-   const order = [];
-   order.push([sort_by, sort_order]);
-   return employeeDetailsModel.findAll({
-      first_name,
-      last_name,
-      email_id,
-      phone_no,
-      address,
-      id,
-      employee_id
-   });
- };
+const getAllEmployee = async ({ department_id }) => {
+  const where = {};
+
+   if (department_id) {
+    where.department_id = department_id 
+    };
+   
+   return employeeDetailsModel.findAll({ where });
+  };
 
   module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers} ;

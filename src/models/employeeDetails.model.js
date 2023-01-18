@@ -3,9 +3,12 @@
 module.exports = (sequelize, Sequelize) => sequelize.define('employee', {
   employee_id: {
     type: Sequelize.INTEGER,
-    autoIncrement:false,
     primaryKey:true,
   },
+  department_id: {
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    },
   first_name: {
     type: Sequelize.STRING(255),
     allowNull: false,
