@@ -12,15 +12,16 @@ const { version } = require('chai');
   const addDepartment = async (req ,res ,next) => {
     console.log(req.body);
     try {
-    const validate  = await departmentValidation.validateAsync(req.body);
-    console.log("------------>",validate);
-    const department = await departmentService.addDepartment(validate);
+    const validateDepartment  = await departmentValidation.validateAsync(req.body);
+    console.log("------------>",validateDepartment);
+    const department = await departmentService.addDepartment(validateDepartment);
+    console.log('------------->>>',department);
     return success.handler({ department }, req, res, next);
     } catch (err) {
       switch (err.name) {
         case 'SequelizeUniqueConstraintError':
           err.custom_key = 'departmentConflict';
-          err.message = `department with name ${req.body.name} already exists`;
+          err.message = `department with name ${req.body.department_name} already exists`;
           break;
         default:
           break;

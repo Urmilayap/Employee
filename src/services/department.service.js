@@ -3,12 +3,12 @@ const { error } = require('@yapsody/lib-handlers');
 const { Op } = require('sequelize');
 const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
-const {departmentModel,employeeDetailsModel} = sequelizeManager;
+const {departmentModel,employeeDetailsModel,departmentDetailsModel} = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_name, department_id }) => departmentModel.create({ 
-  department_name, department_id });
+const addDepartment = async ({ department_name, department_id, departmentdetails_id }) => departmentModel.create({ 
+  department_name, department_id, departmentdetails_id});
 
 //Get Department BY ID
 const getById = async ({ id }) => {
