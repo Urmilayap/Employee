@@ -4,7 +4,7 @@ const {departmentDetailsController} = require('../controllers');
 
 const departmentDetailsRoutes = express.Router({});
 
-departmentDetailsRoutes.post('/register', departmentDetailsController.addDetails);
+departmentDetailsRoutes.post('/register', departmentDetailsController.addDepartmentdetails);
 
 
 module.exports = departmentDetailsRoutes;

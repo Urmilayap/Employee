@@ -1,21 +1,13 @@
 const { departmentService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
 const { checkChanges } = require('@yapsody/lib-utils');
-const config = require('../config/employeeDetails.config.json');
-const config1 = require('../config/department.config.json');
-
 const { departmentValidation,getId,getListValidation,updateDepartmentValidation,recoveryParamsValidation} = require('../validations');
-const { version } = require('chai');
-
 
 //create Department
   const addDepartment = async (req ,res ,next) => {
-    console.log(req.body);
-    try {
-    const validateDepartment  = await departmentValidation.validateAsync(req.body);
-    console.log("------------>",validateDepartment);
-    const department = await departmentService.addDepartment(validateDepartment);
-    console.log('------------->>>',department);
+   try {
+    const {department_id, department_name, department_details_id }  = await departmentValidation.validateAsync(req.body);
+    const department = await departmentService.addDepartment(department_id, department_name, department_details_id);
     return success.handler({ department }, req, res, next);
     } catch (err) {
       switch (err.name) {
@@ -63,14 +55,9 @@ const deleteDepartment = async (req, res, next) => {
   //Get all Departments List
   const getAll = async (req, res, next) => {
     const reqData = { ...req.query };
-    console.log(reqData);
-    
-    try {
+     try {
       const { page_size,page_no } = await getListValidation.validateAsync(reqData);
-      console.log(reqData);
       const departments = await departmentService.getAll({ page_size, page_no } );
-      
-      
       return success.handler({ departments }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);

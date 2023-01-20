@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => sequelize.define('departmentDetails', {
+module.exports = (sequelize, Sequelize) => sequelize.define('Department_Details', {
     
     id: {
         type: Sequelize.INTEGER,

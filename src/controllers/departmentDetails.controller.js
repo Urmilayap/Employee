@@ -1,18 +1,16 @@
-const { departmentService, departmentDetailsService } = require('../services');
+const { departmentDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
+const {  departmentDetailsValidation} = require('../validations');
 
-const { departmentValidation,getId,getListValidation,updateDepartmentValidation,recoveryParamsValidation, departmentDetailsValidation} = require('../validations');
-const { version } = require('chai');
 
 
 //create Department
-  const addDetails = async (req ,res ,next) => {
-    console.log(req.body);
+  const addDepartmentdetails = async (req ,res ,next) => {
     try {
-    const validateDetails = await departmentDetailsValidation.validateAsync(req.body);
-    console.log("------------>",validateDetails);
-    const details = await departmentDetailsService.addDetails(validateDetails);
-    return success.handler({ details }, req, res, next);
+    const { min_income, max_income, description, introduced_date } = await departmentDetailsValidation.validateAsync(req.body);
+    const departmentdetails = await departmentDetailsService.addDepartmentdetails(min_income, max_income, description, introduced_date);
+    console.log('------------>',departmentdetails);
+    return success.handler({ departmentdetails }, req, res, next);
     } catch (err) {
       switch (err.name) {
         case 'SequelizeUniqueConstraintError':
@@ -26,4 +24,4 @@ const { version } = require('chai');
     }
   };
 
-  module.exports = { addDetails};
+  module.exports = { addDepartmentdetails };

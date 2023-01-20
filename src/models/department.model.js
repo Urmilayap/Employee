@@ -1,9 +1,9 @@
-module.exports = (sequelize, Sequelize) => sequelize.define('department', {
+module.exports = (sequelize, Sequelize) => sequelize.define('Department', {
     department_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       },
-    departmentdetails_id: {
+    department_details_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       },

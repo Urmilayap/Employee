@@ -4,10 +4,11 @@ const yapValidations = require('@yapsody/lib-validations');
 module.exports = Joi.object()
   .keys({
     min_income: yapValidations
-      .id.required()
+      .generic.number.integer
+      .required()
       .label('Min. Income'),
     max_income: yapValidations
-      .id
+      .generic.number.integer
       .required()
       .label('Max. Income'),
     description: yapValidations

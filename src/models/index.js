@@ -1,9 +1,9 @@
-const employee = require('./employeeDetails.model');
-const department =require('./department.model');
-const departmentDetails = require('./departmentDetails.model');
+const Employee = require('./employeeDetails.model');
+const Department =require('./department.model');
+const Department_Details = require('./departmentDetails.model');
 
 module.exports = {
-  employee,
-  department,
-  departmentDetails
+  Employee,
+  Department,
+  Department_Details
 };

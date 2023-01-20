@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { employee,department,departmentDetails} = require('../models');
+const { Employee,Department,Department_Details} = require('../models');
 const config = require('../config');
 
 const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, config.MYSQL_PASSWORD, {
@@ -20,20 +20,20 @@ const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, con
   },
 });
 
-const employeeDetailsModel = employee(sequelize, Sequelize);
-const departmentModel = department(sequelize,Sequelize);
-const departmentDetailsModel = departmentDetails(sequelize,Sequelize);
+const EmployeeDetailsModel = Employee(sequelize, Sequelize);
+const DepartmentModel = Department(sequelize,Sequelize);
+const DepartmentDetailsModel = Department_Details(sequelize,Sequelize);
 
-departmentModel.hasMany(employeeDetailsModel, { foreignKey: 'department_id' });
-employeeDetailsModel.belongsTo(departmentModel, { foreignKey: 'department_id' });
+DepartmentModel.hasMany(EmployeeDetailsModel, { foreignKey: 'department_id' });
+EmployeeDetailsModel.belongsTo(DepartmentModel, { foreignKey: 'department_id' });
 
-departmentDetailsModel.hasMany(departmentModel,{ foreignKey: 'departmentdetails_id'});
-departmentModel.belongsTo(departmentDetailsModel,{ foreignKey: 'departmentdetails_id'});
+DepartmentDetailsModel.hasMany(DepartmentModel,{ foreignKey: 'departmentdetails_id'});
+DepartmentModel.belongsTo(DepartmentDetailsModel,{ foreignKey: 'departmentdetails_id'});
 
 
 module.exports = {
   sequelize,
-  employeeDetailsModel,
-  departmentModel,
-  departmentDetailsModel
+  EmployeeDetailsModel,
+  DepartmentModel,
+  DepartmentDetailsModel
 };

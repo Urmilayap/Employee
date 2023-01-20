@@ -7,7 +7,7 @@ module.exports = Joi.object()
       .id
       .required()
       .label('Department ID'),
-    departmentdetails_id: yapValidations
+    department_details_id: yapValidations
       .id
       .required()
       .label('Department Details Table ID'),
