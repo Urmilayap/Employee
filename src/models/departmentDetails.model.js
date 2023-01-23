@@ -1,6 +1,6 @@
-module.exports = (sequelize, Sequelize) => sequelize.define('Department_Details', {
+module.exports = (sequelize, Sequelize) => sequelize.define('DepartmentDetails', {
     
-    id: {
+    department_details_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,

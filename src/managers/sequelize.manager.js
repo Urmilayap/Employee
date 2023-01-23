@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { Employee,Department,Department_Details} = require('../models');
+const { Employee,Department,DepartmentDetails} = require('../models');
 const config = require('../config');
 
 const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, config.MYSQL_PASSWORD, {
@@ -22,13 +22,13 @@ const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, con
 
 const EmployeeDetailsModel = Employee(sequelize, Sequelize);
 const DepartmentModel = Department(sequelize,Sequelize);
-const DepartmentDetailsModel = Department_Details(sequelize,Sequelize);
+const DepartmentDetailsModel = DepartmentDetails(sequelize,Sequelize);
 
 DepartmentModel.hasMany(EmployeeDetailsModel, { foreignKey: 'department_id' });
 EmployeeDetailsModel.belongsTo(DepartmentModel, { foreignKey: 'department_id' });
 
-DepartmentDetailsModel.hasMany(DepartmentModel,{ foreignKey: 'departmentdetails_id'});
-DepartmentModel.belongsTo(DepartmentDetailsModel,{ foreignKey: 'departmentdetails_id'});
+DepartmentDetailsModel.hasMany(DepartmentModel,{ foreignKey: 'department_details_id'});
+DepartmentModel.belongsTo(DepartmentDetailsModel,{ foreignKey: 'department_details_id'});
 
 
 module.exports = {

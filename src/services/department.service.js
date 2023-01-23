@@ -5,10 +5,10 @@ const { DepartmentModel,EmployeeDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_name, department_id, department_details_id }) => DepartmentModel.create({ 
+const addDepartment = async ({ department_name, department_details_id }) =>  DepartmentModel.create({ 
   department_name, 
-  department_id, 
   department_details_id });
+
 
 //Get Department BY ID
 const getById = async ({ id }) => {

@@ -6,8 +6,8 @@ const { departmentValidation,getId,getListValidation,updateDepartmentValidation,
 //create Department
   const addDepartment = async (req ,res ,next) => {
    try {
-    const {department_id, department_name, department_details_id }  = await departmentValidation.validateAsync(req.body);
-    const department = await departmentService.addDepartment(department_id, department_name, department_details_id);
+    const { department_name, department_details_id }  = await departmentValidation.validateAsync(req.body);
+    const department = await departmentService.addDepartment({ department_name, department_details_id });
     return success.handler({ department }, req, res, next);
     } catch (err) {
       switch (err.name) {
