@@ -1,6 +1,6 @@
 const { departmentDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
-const {  departmentDetailsValidation } = require('../validations');
+const {  departmentDetailsValidation,getId } = require('../validations');
 
 
 
@@ -24,5 +24,16 @@ const {  departmentDetailsValidation } = require('../validations');
       return error.handler(err, req, res, next);
     }
   };
+  //Get Department by ID
+ const getById = async (req, res, next) => {
+  const { departmentdetailsId } = req.params;
+ try {
+   const id = await getId.validateAsync(departmentdetailsId);
+   const departmentdetails = await departmentDetailsService.getById({ id });
+   return success.handler({ departmentdetails }, req, res, next);
+ } catch (err) {
+   return error.handler(err, req, res, next);
+ }
+ };
 
-  module.exports = { addDepartmentdetails };
+  module.exports = { addDepartmentdetails, getById };
