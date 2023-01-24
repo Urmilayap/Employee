@@ -1,7 +1,8 @@
 const { error } = require('@yapsody/lib-handlers');
 const { STATUS } = require('../consts');
+const { Op } = require('sequelize');
 const { sequelizeManager } = require('../managers');
-const { EmployeeDetailsModel } = sequelizeManager;
+const { EmployeeDetailsModel,DepartmentDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Employee Details
@@ -58,12 +59,14 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
 
 //Get all Employees List
 const getAllEmployee = async ({ department_id }) => {
-  const where = {};
+  const where = {   };
+  
 
    if (department_id) {
     where.department_id = department_id 
     };
-   
+  
+
    return EmployeeDetailsModel.findAll({ where });
   };
 
