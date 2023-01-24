@@ -1,13 +1,12 @@
-const yapUtil = require('@yapsody/lib-utils');
 const { error } = require('@yapsody/lib-handlers');
-const { Op ,ids, search ,sort_by ,sort_order} = require('sequelize');
 const { STATUS } = require('../consts');
+const { Op } = require('sequelize');
 const { sequelizeManager } = require('../managers');
-const {employeeDetailsModel} = sequelizeManager;
+const { EmployeeDetailsModel,DepartmentDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Employee Details
-const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,employee_id, department_id }) => employeeDetailsModel.create({
+const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,employee_id, department_id }) => EmployeeDetailsModel.create({
    first_name,
    last_name,
    email_id,
@@ -19,7 +18,7 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
 
   const multipleUsers = async (employees) => { 
     console.log(employees);
-   const data =  await employeeDetailsModel.bulkCreate(employees)
+   const data =  await EmployeeDetailsModel.bulkCreate(employees)
    return data;
 
 };
@@ -28,7 +27,7 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
 //Get Employee BY ID
   const getEmployeeById = async ({ id }) => {
    const where = { id };
-   const data = await employeeDetailsModel.findOne({
+   const data = await EmployeeDetailsModel.findOne({
      where,
    });
    if (!data) {
@@ -60,13 +59,15 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
 
 //Get all Employees List
 const getAllEmployee = async ({ department_id }) => {
-  const where = {};
+  const where = {   };
+  
 
    if (department_id) {
     where.department_id = department_id 
     };
-   
-   return employeeDetailsModel.findAll({ where });
+  
+
+   return EmployeeDetailsModel.findAll({ where });
   };
 
   module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers} ;

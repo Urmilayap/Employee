@@ -3,10 +3,10 @@ const yapValidations = require('@yapsody/lib-validations');
 
 module.exports = Joi.object()
   .keys({
-    department_id: yapValidations
+    department_details_id: yapValidations
       .id
       .required()
-      .label('Department ID'),
+      .label('Department Details Table ID'),
     department_name: yapValidations
       .name
       .required()

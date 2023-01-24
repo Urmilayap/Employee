@@ -1,19 +1,15 @@
 const { employeeDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
 const { checkChanges } = require('@yapsody/lib-utils');
-const config = require('../config/employeeDetails.config.json');
 const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation} = require('../validations');
-const { version } = require('chai');
 
 
 //create Employee details
   const addEmployee = async (req ,res ,next) => {
     try {
-      console.log('--------->',req.body);
-    const { employee_id,department_id,first_name,last_name,address,email_id,phone_no,
+    const { employee_id, department_id, first_name, last_name, address, email_id, phone_no,
      }  = await employeeValidation.validateAsync(req.body);
     const employee = await employeeDetailsService.addEmployee({ employee_id,department_id,first_name, last_name, email_id, phone_no, address, })
-    console.log("------------>",employee);
     return success.handler({ employee }, req, res, next);
     } catch (err) {
       switch (err.name) {
@@ -32,7 +28,6 @@ const { version } = require('chai');
     console.log(req.body);
     try {
     const validateBody = await multipleUserValidation.validateAsync(req.body);
-    console.log("-------------->",validateBody);
     const update = await employeeDetailsService.multipleUsers(req.body)
     return success.handler({ update }, req, res, next);
     } catch (err) {
@@ -86,7 +81,6 @@ const { version } = require('chai');
     }
     try {
       const { department_id } = await getListValidation.validateAsync(reqData);
-  
       const employees = await employeeDetailsService.getAllEmployee({ department_id });
       return success.handler({ employees }, req, res, next);
     }  catch (err) {

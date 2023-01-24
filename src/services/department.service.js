@@ -1,28 +1,27 @@
-const yapUtil = require('@yapsody/lib-utils');
 const { error } = require('@yapsody/lib-handlers');
-const { Op } = require('sequelize');
 const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
-const {departmentModel,employeeDetailsModel} = sequelizeManager;
+const { DepartmentModel,EmployeeDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 //Create Department
-const addDepartment = async ({ department_name, department_id }) => departmentModel.create({ 
-  department_name, department_id });
+const addDepartment = async ({ department_name, department_details_id }) =>  DepartmentModel.create({ 
+  department_name, 
+  department_details_id });
+
 
 //Get Department BY ID
 const getById = async ({ id }) => {
     const where = { department_id : id};
     console.log(where);
-    const department = await departmentModel.findOne({
+    const department = await DepartmentModel.findOne({
       where,
       include: [
         {
-          model: employeeDetailsModel,
+          model: EmployeeDetailsModel,
         },
       ],
     });
-    console.log("--------------------->",department);
     if (!department) {
       return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
     }
@@ -59,17 +58,7 @@ const getAll = async ({
   console.log({page_no,page_size});
   const limit = page_size;
   const offset = (page_no - 1) * limit; 
-
-  // const where = {
-  //   departmentName,
-  // };
-
-  // if (search) {
-  //   where.name = {
-  //     [Op.like]: `%${search}%`,
-  //   };
-  // }
-  return departmentModel.findAll({  offset, limit });
+  return DepartmentModel.findAll({  offset, limit });
 };
 
 module.exports = { addDepartment, getById, deleteDepartment, getAll } ;
