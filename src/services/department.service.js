@@ -53,7 +53,7 @@ const deleteDepartment = async ({ id, force_update }) => {
    };
 
 //Get all departmentList
-const getAll = async ({ page_size, page_no, min_income}) => {
+const getAll = async ({ page_size, page_no, min_income }) => {
   console.log({min_income});
   const limit = page_size;
   const offset = (page_no - 1) * limit; 

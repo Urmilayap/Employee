@@ -58,22 +58,33 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
   };
 
 //Get all Employees List
-const getAllEmployee = async ({ page_no,page_size, first_name ,department_id}) => {
+const getAllEmployee = async ({ page_no,page_size, first_name ,department_id, min_income}) => {
   const limit = page_size;
   const offset = (page_no - 1) * limit;
-  const where = {
-    department_id:{
-      [Op.eq]: `${department_id},`
-    },
-    first_name:{
-      [Op.startsWith]:`${first_name}`,
-    },
-    // min_income:{
-    //   [Op.gte]:`${min_income}`
-    // }
-  };
- 
-   return EmployeeDetailsModel.findAll({ where, limit, offset });
+  const include = [{
+
+      model: DepartmentModel,
+      include:[{
+        model: DepartmentDetailsModel,
+        where:{
+          min_income:{
+            [Op.gte]:`${min_income}`
+          }}
+        }],
+      }];
+     const where = {
+        department_id:{
+          [Op.eq]: `${department_id},`
+        },
+        first_name:{
+          [Op.startsWith]:`${first_name}`,
+        },
+       
+      };
+  
+      
+   return EmployeeDetailsModel.findAll({ where, limit, offset, min_income});
+
   };
 
   module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers} ;

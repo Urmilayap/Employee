@@ -80,8 +80,8 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
       reqData.ids = reqData.ids.split(';');
     }
     try {
-      const { page_no,page_size,first_name,department_id} = await getListValidation.validateAsync(reqData);
-      const employees = await employeeDetailsService.getAllEmployee( { page_no, page_size, first_name, department_id});
+      const { page_no,page_size,first_name,department_id, min_income} = await getListValidation.validateAsync(reqData);
+      const employees = await employeeDetailsService.getAllEmployee( { page_no, page_size, first_name, department_id, min_income});
       return success.handler({ employees }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);
