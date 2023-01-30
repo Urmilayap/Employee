@@ -1,7 +1,7 @@
-const { employeeDetailsService } = require('../services');
+const { employeeDetailsService, departmentService, departmentDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
 const { checkChanges } = require('@yapsody/lib-utils');
-const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation} = require('../validations');
+const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation, departmentValidation, addOneValidation} = require('../validations');
 
 
 //create Employee details
@@ -16,6 +16,39 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
         case 'SequelizeUniqueConstraintError':
           err.custom_key = 'employeeDetailsConflict';
           err.message = `employee with name ${req.body.name} already exists`;
+          break;
+        default:
+          break;
+      }
+      return error.handler(err, req, res, next);
+    }
+  };
+
+  //create Employee details with condition
+  const addOne = async (req ,res ,next) => {
+    const reqData = { ...req.query };
+    try {
+    const { employee_id, 
+      department_id, 
+      first_name, 
+      last_name, 
+      address,
+      email_id, 
+      phone_no,}  = await employeeValidation.validateAsync(req.body);
+    const { page_size,page_no } = await getListValidation.validateAsync(reqData);
+    const department = await departmentService.getAll({ page_size, page_no });
+    console.log('-------->>>>',department);
+    if( !department_id ){
+      throw (`department id ${req.body.department_id} doest not exist`);
+    }else{
+    const employee = await employeeDetailsService.addOne({ employee_id,department_id,first_name, last_name, email_id, phone_no, address,})
+    return success.handler({ employee }, req, res, next);
+    }
+    }catch (err) {
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          err.custom_key = 'employeeDetailsConflict';
+          err.message = `department id  ${req.body.department_id} does not exists`;
           break;
         default:
           break;
@@ -128,4 +161,6 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
     return error.handler(err, req, res, next);
   }
   };
- module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee, multipleUsers};
+
+  
+ module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee, multipleUsers, addOne};
