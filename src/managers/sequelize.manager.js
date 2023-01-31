@@ -31,6 +31,8 @@ DepartmentDetailsModel.hasMany(DepartmentModel,{ foreignKey: 'department_details
 DepartmentModel.belongsTo(DepartmentDetailsModel,{ foreignKey: 'department_details_id'});
 
 
+
+
 module.exports = {
   sequelize,
   EmployeeDetailsModel,
