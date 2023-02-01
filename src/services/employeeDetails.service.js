@@ -16,17 +16,6 @@ const addEmployee = async ({ first_name,last_name,email_id,phone_no,address,empl
    department_id
   });
 
-  //Create Employee Details with condition
-const addOne = async ({ first_name,last_name,email_id,phone_no,address,employee_id, department_id, }) => EmployeeDetailsModel.create({
-  first_name,
-  last_name,
-  email_id,
-  phone_no,
-  address,
-  employee_id,
-  department_id,
- });
-
 
 const multipleUsers = async (employees) => { 
     console.log(employees);
@@ -82,4 +71,4 @@ const getAllEmployee = async ({ department_id }) => {
    return EmployeeDetailsModel.findAll({ where });
   };
 
-  module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers, addOne} ;
+  module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee, multipleUsers,} ;

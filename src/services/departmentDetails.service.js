@@ -8,5 +8,9 @@ const addDepartmentdetails = async ({ min_income, max_income, description, intro
      description, 
      introduced_date });
 
+const getAllDepartmentdetails = async () => {
+     return DepartmentDetailsModel.findAll();
+     };
 
-module.exports = { addDepartmentdetails};
+
+module.exports = { addDepartmentdetails, getAllDepartmentdetails};

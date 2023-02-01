@@ -37,4 +37,23 @@ module.exports = Joi.object()
       .name
       .required()
       .label('Department Name'),
+    min_income: yapValidations
+      .generic.number.integer
+      .required()
+      .label('Min. Income'),
+
+    max_income: yapValidations
+      .generic.number.integer
+      .required()
+      .label('Max. Income'),
+      
+    description: yapValidations
+      .description
+      .required()
+      .label('Description'),
+      
+    introduced_date: yapValidations
+      .generic.date.iso
+      .required()
+      .label('Introduced Date of Department')
   });

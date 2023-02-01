@@ -26,24 +26,27 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
 
   //create Employee details with condition
   const addOne = async (req ,res ,next) => {
-    const reqData = { ...req.query };
     try {
-    const { employee_id, 
-      department_id, 
-      first_name, 
-      last_name, 
-      address,
-      email_id, 
-      phone_no,}  = await employeeValidation.validateAsync(req.body);
-    const { page_size,page_no } = await getListValidation.validateAsync(reqData);
-    const department = await departmentService.getAll({ page_size, page_no });
-    console.log('-------->>>>',department);
-    if( !department_id ){
-      throw (`department id ${req.body.department_id} doest not exist`);
-    }else{
-    const employee = await employeeDetailsService.addOne({ employee_id,department_id,first_name, last_name, email_id, phone_no, address,})
-    return success.handler({ employee }, req, res, next);
-    }
+    const { employee_id, department_id, first_name, last_name, address, email_id, 
+      phone_no, department_name, department_details_id, min_income, max_income, description, 
+      introduced_date }  = await addOneValidation.validateAsync(req.body);
+
+      const department = await departmentService.getById({department_id});
+
+      if( department === null){
+
+        const departmentdetails = await departmentDetailsService.addDepartmentdetails({ min_income, max_income, description, introduced_date});
+        console.info(departmentdetails);
+        const department = await departmentService.addDepartment({ department_name, department_details_id});
+        console.info(department);
+        const employee = await employeeDetailsService.addEmployee({ employee_id,department_id:department.department_id, first_name, last_name, email_id, phone_no, address,})
+        return success.handler({ employee }, req, res, next);
+
+      }else{
+            const employee = await employeeDetailsService.addEmployee({ employee_id,department_id,first_name, last_name, email_id, phone_no, address,})
+            return success.handler({ employee }, req, res, next);
+          }
+
     }catch (err) {
       switch (err.name) {
         case 'SequelizeUniqueConstraintError':
@@ -57,6 +60,7 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
     }
   };
 
+//bulk users create
   const multipleUsers = async (req ,res ,next) => {
     console.log(req.body);
     try {

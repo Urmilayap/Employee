@@ -55,9 +55,12 @@ const deleteDepartment = async (req, res, next) => {
   //Get all Departments List
   const getAll = async (req, res, next) => {
     const reqData = { ...req.query };
+    if (reqData.ids) {
+      reqData.ids = reqData.ids.split(';');
+    }
      try {
-      const { page_size,page_no } = await getListValidation.validateAsync(reqData);
-      const departments = await departmentService.getAll({ page_size, page_no } );
+      const validate = await getListValidation.validateAsync(reqData);
+      const departments = await departmentService.getAll();
       return success.handler({ departments }, req, res, next);
     }  catch (err) {
       return error.handler(err, req, res, next);

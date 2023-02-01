@@ -25,4 +25,18 @@ const {  departmentDetailsValidation } = require('../validations');
     }
   };
 
-  module.exports = { addDepartmentdetails };
+  const getAllDepartmentdetails = async (req, res, next) => {
+    const reqData = { ...req.query };
+    if (reqData.ids) {
+      reqData.ids = reqData.ids.split(';');
+    }
+     try {
+      const validate = await getListValidation.validateAsync(reqData);
+      const departments = await departmentDetailsService.getAllDepartmentdetails( );
+      return success.handler({ departments }, req, res, next);
+    }  catch (err) {
+      return error.handler(err, req, res, next);
+    }
+  };
+
+  module.exports = { addDepartmentdetails, getAllDepartmentdetails };

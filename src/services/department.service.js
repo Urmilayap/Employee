@@ -11,20 +11,21 @@ const addDepartment = async ({ department_name, department_details_id }) =>  Dep
 
 
 //Get Department BY ID
-const getById = async ({ id }) => {
-    const where = { department_id : id};
-    console.log(where);
-    const department = await DepartmentModel.findOne({
+const getById = async ({ department_id }) => {
+     const where = { department_id };
+     const department = await DepartmentModel.findOne({
       where,
-      include: [
-        {
-          model: EmployeeDetailsModel,
-        },
-      ],
+      // include: [
+      //   {
+      //     model: EmployeeDetailsModel,
+      //   },
+      // ],
+      
     });
-    if (!department) {
-      return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
-    }
+    console.log({ department });
+    // if (!department) {
+    //   return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
+    // }
     
     return department;
     
@@ -52,13 +53,8 @@ const deleteDepartment = async ({ id, force_update }) => {
    };
 
 //Get all departmentList
-const getAll = async ({ 
-  page_size, 
-  page_no}) => {
-  console.log({page_no,page_size});
-  const limit = page_size;
-  const offset = (page_no - 1) * limit; 
-  return DepartmentModel.findAll({  offset, limit });
+const getAll = async () => {
+  return DepartmentModel.findAll();
 };
 
 module.exports = { addDepartment, getById, deleteDepartment, getAll } ;
