@@ -5,5 +5,5 @@ const DepartmentDetails = require('./departmentDetails.model');
 module.exports = {
   Employee,
   Department,
-  DepartmentDetails,
+  DepartmentDetails
 };
