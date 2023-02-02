@@ -12,15 +12,15 @@ module.exports = Joi.object()
       .generic.number.integer
       .required()
       .label('Max. Income'),
-      
+
     description: yapValidations
       .description
       .required()
       .label('Description'),
-      
+
     introduced_date: yapValidations
       .generic.date.iso
       .required()
-      .label('Introduced Date of Department')
-    
+      .label('Introduced Date of Department'),
+
   });

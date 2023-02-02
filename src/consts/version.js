@@ -1,4 +1,3 @@
 module.exports = {
-    START: 1,
-  };
-  
+  START: 1,
+};
