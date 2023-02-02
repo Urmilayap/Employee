@@ -8,12 +8,13 @@ const employeeDetailsRoutes = express.Router({});
 
 employeeDetailsRoutes.post('/register' ,employeeDetailsController.addEmployee);
 employeeDetailsRoutes.post('/', employeeDetailsController.multipleUsers);
-employeeDetailsRoutes.post('/add', employeeDetailsController.addOne);
 
 employeeDetailsRoutes.get('/',employeeDetailsController.getAllEmployee);
 employeeDetailsRoutes.get('/:employeeId/',employeeDetailsController.getEmployeeById);
 
 employeeDetailsRoutes.delete('/:employeeId/',employeeDetailsController.deleteEmployee);
+employeeDetailsRoutes.delete('/',employeeDetailsController.deleteemp);
+
 employeeDetailsRoutes.put('/:employeeId/',employeeDetailsController.updateEmployee);
 
 

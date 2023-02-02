@@ -1,8 +1,15 @@
+<<<<<<< Updated upstream
 /* eslint-disable camelcase */
 const { employeeDetailsService, departmentService, departmentDetailsService } = require('../services')
 const { error, success } = require('@yapsody/lib-handlers')
 const { checkChanges } = require('@yapsody/lib-utils')
 const { employeeValidation, getId, getListValidation, recoveryParamsValidation, updateValidation, addOneValidation } = require('../validations')
+=======
+const { employeeDetailsService, departmentDetailsService, } = require('../services');
+const { error, success } = require('@yapsody/lib-handlers');
+const { checkChanges } = require('@yapsody/lib-utils');
+const {employeeValidation, getId, getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation} = require('../validations');
+>>>>>>> Stashed changes
 
 // create Employee details
 const addEmployee = async (req, res, next) => {
@@ -104,7 +111,44 @@ const deleteEmployee = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next)
   }
+<<<<<<< Updated upstream
 }
+=======
+  };
+
+  //Delete Employees with condition
+  const deleteemp = async (req, res, next) => {
+  const { force_update } = req.query;
+  const reqData = { ...req.query };
+  console.log('------->',reqData);
+  try {
+    const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
+    console.log('------->',min_income);
+    const employeelist = await departmentDetailsService.getAll({ page_size, page_no, min_income });
+    console.log(employeelist);
+    await recoveryParamsValidation.validateAsync(force_update);
+    const employee = await employeeDetailsService.deleteEmployee({ employeelist });
+    return success.handler({ employee }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+  };
+
+  //Get all Employees List
+  const getAllEmployee = async (req, res, next) => {
+    const reqData = { ...req.query };
+    if (reqData.ids) {
+      reqData.ids = reqData.ids.split(';');
+    }
+    try {
+      const { page_no,page_size,first_name,department_id, min_income} = await getListValidation.validateAsync(reqData);
+      const employees = await employeeDetailsService.getAllEmployee( { page_no, page_size, first_name, department_id, min_income});
+      return success.handler({ employees }, req, res, next);
+    }  catch (err) {
+      return error.handler(err, req, res, next);
+    }
+  };
+>>>>>>> Stashed changes
 
 // Get all Employees List
 const getAllEmployee = async (req, res, next) => {
@@ -165,6 +209,11 @@ const updateEmployee = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next)
   }
+<<<<<<< Updated upstream
 }
 
 module.exports = { addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, updateEmployee, multipleUsers, addOne }
+=======
+  };
+ module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee, multipleUsers, deleteemp};
+>>>>>>> Stashed changes
