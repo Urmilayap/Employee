@@ -6,5 +6,7 @@ const departmentDetailsRoutes = express.Router({});
 
 departmentDetailsRoutes.post('/register', departmentDetailsController.addDepartmentdetails);
 departmentDetailsRoutes.get('/', departmentDetailsController.getAllDepartmentdetails);
+departmentDetailsRoutes.get('/:departmentdetailsId/', departmentDetailsController.getById);
+departmentDetailsRoutes.get('/',departmentDetailsController.getAll);
 
 module.exports = departmentDetailsRoutes;

@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const { error, success } = require('@yapsody/lib-handlers');
-const { departmentDetailsService } = require('../services');
-const { departmentDetailsValidation } = require('../validations');
+const { error, success } = require('@yapsody/lib-handlers')
+const { departmentDetailsService } = require('../services')
+const { departmentDetailsValidation } = require('../validations')
+const {  departmentDetailsValidation,getId, getListValidation } = require('../validations')
 
 // create Department
 const addDepartmentdetails = async (req, res, next) => {
@@ -42,5 +43,29 @@ const getAllDepartmentdetails = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
+  //Get Department by ID
+ const getById = async (req, res, next) => {
+  const { departmentdetailsId } = req.params;
+ try {
+   const id = await getId.validateAsync(departmentdetailsId);
+   const departmentdetails = await departmentDetailsService.getById({ id });
+   return success.handler({ departmentdetails }, req, res, next);
+ } catch (err) {
+   return error.handler(err, req, res, next);
+ }
+ };
 
-module.exports = { addDepartmentdetails, getAllDepartmentdetails };
+ //Get all Departments List
+ const getAll = async (req, res, next) => {
+  const reqData = { ...req.query };
+   try {
+    const { page_size,page_no, min_income } = await getListValidation.validateAsync(reqData);
+    const departmentsdetails = await departmentDetailsService.getAll({ page_size, page_no,min_income } );
+    return success.handler({ departmentsdetails }, req, res, next);
+  }  catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
+
+  module.exports = { addDepartmentdetails, getAllDepartmentdetails, getById, getAll };
+  

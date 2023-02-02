@@ -115,7 +115,6 @@ const deleteEmployee = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
-
 // Delete Employees with condition
 const deleteemp = async (req, res, next) => {
   const { force_update } = req.query;
@@ -152,6 +151,21 @@ const getAllEmployees = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
+
+//Get all Employees List
+  const getAllEmployee = async (req, res, next) => {
+    const reqData = { ...req.query };
+    if (reqData.ids) {
+      reqData.ids = reqData.ids.split(';');
+    }
+    try {
+      const { page_no,page_size,first_name,department_id, min_income} = await getListValidation.validateAsync(reqData);
+      const employees = await employeeDetailsService.getAllEmployee( { page_no, page_size, first_name, department_id, min_income});
+      return success.handler({ employees }, req, res, next);
+    }  catch (err) {
+      return error.handler(err, req, res, next);
+    }
+  };
 
 // Get all Employees List
 const getAllEmployee = async (req, res, next) => {

@@ -2,7 +2,8 @@
 const { error } = require('@yapsody/lib-handlers');
 const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
-
+const { EmployeeDetailsModel,DepartmentDetailsModel,DepartmentModel } = sequelizeManager;
+const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 const { EmployeeDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
@@ -66,9 +67,36 @@ const getAllEmployee = async ({ department_id }) => {
   if (department_id) {
     where.department_id = department_id;
   }
-
   return EmployeeDetailsModel.findAll({ where });
 };
+
+//Get all Employees List
+const getAllEmployee = async ({ page_no,page_size, first_name ,department_id, min_income}) => {
+  const limit = page_size;
+  const offset = (page_no - 1) * limit;
+  const include = [{
+
+      model: DepartmentModel,
+      include:[{
+        model: DepartmentDetailsModel,
+        where:{
+          min_income:{
+            [Op.gte]:`${min_income}`
+          }}
+        }],
+      }];
+     const where = {
+        department_id:{
+          [Op.eq]: `${department_id},`
+        },
+        first_name:{
+          [Op.startsWith]:`${first_name}`,
+        },
+       
+      };
+    return EmployeeDetailsModel.findAll({ where, limit, offset, min_income});
+
+  };
 
 module.exports = {
   addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, multipleUsers,
