@@ -71,6 +71,63 @@ const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updat
   } catch (err) {
     return error.handler(err, req, res, next);
   }
+};
+// Delete Employees with condition
+const deleteemp = async (req, res, next) => {
+  const { force_update } = req.query;
+  const reqData = { ...req.query };
+  console.log('------->', reqData);
+  try {
+    const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
+    console.log('------->', min_income);
+    const employeelist = await departmentDetailsService.getAll({ page_size, page_no, min_income });
+    console.log(employeelist);
+    await recoveryParamsValidation.validateAsync(force_update);
+    const employee = await employeeDetailsService.deleteEmployee({ employeelist });
+    return success.handler({ employee }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
+
+// Get all Employees List
+const getAllEmployees = async (req, res, next) => {
+  const reqData = { ...req.query };
+  if (reqData.ids) {
+    reqData.ids = reqData.ids.split(';');
+  }
+  try {
+    const {
+      page_no, page_size, first_name, department_id, min_income,
+    } = await getListValidation.validateAsync(reqData);
+    const employees = await employeeDetailsService.getAllEmployees({
+      page_no, page_size, first_name, department_id, min_income,
+    });
+    return success.handler({ employees }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
+
+// Get all Employees List
+const getAllEmployee = async (req, res, next) => {
+  const reqData = { ...req.query };
+  if (reqData.ids) {
+    reqData.ids = reqData.ids.split(';');
+  }
+  try {
+    const {
+      page_no, page_size, first_name, department_id, min_income,
+    } = await getListValidation.validateAsync(reqData);
+    const employees = await employeeDetailsService.getAllEmployee({
+      page_no, page_size, first_name, department_id, min_income,
+    });
+    return success.handler({ employees }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
+
   };
 
   //Get all Employees List
