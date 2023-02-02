@@ -1,95 +1,51 @@
+const { employeeDetailsService } = require('../services');
 const { error, success } = require('@yapsody/lib-handlers');
 const { checkChanges } = require('@yapsody/lib-utils');
-const { employeeDetailsService, departmentDetailsService, departmentService } = require('../services');
-const {
-  employeeValidation, getId, getListValidation, recoveryParamsValidation, updateValidation, addOneValidation,
-} = require('../validations');
+const {employeeValidation,getId,getListValidation,recoveryParamsValidation,updateValidation, multipleUserValidation} = require('../validations');
 
-// create Employee details
-const addEmployee = async (req, res, next) => {
-  try {
-    const {
-      employee_id, department_id, first_name, last_name, address, email_id, phone_no,
-    } = await employeeValidation.validateAsync(req.body);
-    const employee = await employeeDetailsService.addEmployee({
-      employee_id, department_id, first_name, last_name, email_id, phone_no, address,
-    });
+
+//create Employee details
+  const addEmployee = async (req ,res ,next) => {
+    try {
+    const { employee_id, department_id, first_name, last_name, address, email_id, phone_no,
+     }  = await employeeValidation.validateAsync(req.body);
+    const employee = await employeeDetailsService.addEmployee({ employee_id,department_id,first_name, last_name, email_id, phone_no, address, })
     return success.handler({ employee }, req, res, next);
-  } catch (err) {
-    switch (err.name) {
-      case 'SequelizeUniqueConstraintError':
-        err.custom_key = 'employeeDetailsConflict';
-        err.message = `employee with name ${req.body.name} already exists`;
-        break;
-      default:
-        break;
+    } catch (err) {
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          err.custom_key = 'employeeDetailsConflict';
+          err.message = `employee with name ${req.body.name} already exists`;
+          break;
+        default:
+          break;
+      }
+      return error.handler(err, req, res, next);
     }
-    return error.handler(err, req, res, next);
-  }
-};
+  };
 
-// create Employee details with condition
-const addOne = async (req, res, next) => {
-  try {
-    const {
-      employee_id, department_id, first_name, last_name, address, email_id,
-      phone_no, department_name, department_details_id, min_income, max_income, description,
-      introduced_date,
-    } = await addOneValidation.validateAsync(req.body);
-
-    const department = await departmentService.getById({ department_id });
-
-    if (department === null) {
-      const departmentdetails = await departmentDetailsService.addDepartmentdetails({
-        min_income, max_income, description, introduced_date,
-      });
-      console.info(departmentdetails);
-      const departments = await departmentService.addDepartment({ department_name, department_details_id });
-      console.info(departments);
-      const employee = await employeeDetailsService.addEmployee({
-        employee_id, department_id: departments.department_id, first_name, last_name, email_id, phone_no, address,
-      });
-      return success.handler({ employee }, req, res, next);
-    }
-    const employee = await employeeDetailsService.addEmployee({
-      employee_id, department_id, first_name, last_name, email_id, phone_no, address,
-    });
-    return success.handler({ employee }, req, res, next);
-  } catch (err) {
-    switch (err.name) {
-      case 'SequelizeUniqueConstraintError':
-        err.custom_key = 'employeeDetailsConflict';
-        err.message = `department id  ${req.body.department_id} does not exists`;
-        break;
-      default:
-        break;
-    }
-    return error.handler(err, req, res, next);
-  }
-};
-
-// bulk users create
-const multipleUsers = async (req, res, next) => {
-  console.log(req.body);
-  try {
-    const update = await employeeDetailsService.multipleUsers(req.body);
+  const multipleUsers = async (req ,res ,next) => {
+    console.log(req.body);
+    try {
+    const validateBody = await multipleUserValidation.validateAsync(req.body);
+    const update = await employeeDetailsService.multipleUsers(req.body)
     return success.handler({ update }, req, res, next);
-  } catch (err) {
-    switch (err.name) {
-      case 'SequelizeUniqueConstraintError':
-        err.custom_key = 'employeeDetailsConflict';
-        err.message = `employee with name ${req.body.name} already exists`;
-        break;
-      default:
-        break;
+    } catch (err) {
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          err.custom_key = 'employeeDetailsConflict';
+          err.message = `employee with name ${req.body.name} already exists`;
+          break;
+        default:
+          break;
+      }
+      return error.handler(err, req, res, next);
     }
-    return error.handler(err, req, res, next);
-  }
-};
+  };
 
-// Get Employee by ID
-const getEmployeeById = async (req, res, next) => {
-  const { employeeId } = req.params;
+  //Get Employee by ID
+  const getEmployeeById = async (req, res, next) => {
+    const { employeeId } = req.params;
   try {
     const id = await getId.validateAsync(employeeId);
     const employee = await employeeDetailsService.getEmployeeById({ id });
@@ -97,11 +53,12 @@ const getEmployeeById = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next);
   }
-};
+  };
 
-// Delete Employee by ID
-const deleteEmployee = async (req, res, next) => {
-  const { employeeId } = req.params;
+
+  //Delete Employee by ID
+  const deleteEmployee = async (req, res, next) => {
+    const { employeeId } = req.params;
   const { force_update } = req.query;
   try {
     await recoveryParamsValidation.validateAsync(force_update);
@@ -114,45 +71,9 @@ const deleteEmployee = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next);
   }
-};
-// Delete Employees with condition
-const deleteemp = async (req, res, next) => {
-  const { force_update } = req.query;
-  const reqData = { ...req.query };
-  console.log('------->', reqData);
-  try {
-    const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
-    console.log('------->', min_income);
-    const employeelist = await departmentDetailsService.getAll({ page_size, page_no, min_income });
-    console.log(employeelist);
-    await recoveryParamsValidation.validateAsync(force_update);
-    const employee = await employeeDetailsService.deleteEmployee({ employeelist });
-    return success.handler({ employee }, req, res, next);
-  } catch (err) {
-    return error.handler(err, req, res, next);
-  }
-};
+  };
 
-// Get all Employees List
-const getAllEmployees = async (req, res, next) => {
-  const reqData = { ...req.query };
-  if (reqData.ids) {
-    reqData.ids = reqData.ids.split(';');
-  }
-  try {
-    const {
-      page_no, page_size, first_name, department_id, min_income,
-    } = await getListValidation.validateAsync(reqData);
-    const employees = await employeeDetailsService.getAllEmployee({
-      page_no, page_size, first_name, department_id, min_income,
-    });
-    return success.handler({ employees }, req, res, next);
-  } catch (err) {
-    return error.handler(err, req, res, next);
-  }
-};
-
-//Get all Employees List
+  //Get all Employees List
   const getAllEmployee = async (req, res, next) => {
     const reqData = { ...req.query };
     if (reqData.ids) {
@@ -167,28 +88,14 @@ const getAllEmployees = async (req, res, next) => {
     }
   };
 
-// Get all Employees List
-const getAllEmployee = async (req, res, next) => {
-  const reqData = { ...req.query };
-  if (reqData.ids) {
-    reqData.ids = reqData.ids.split(';');
-  }
-  try {
-    const { department_id } = await getListValidation.validateAsync(reqData);
-    const employees = await employeeDetailsService.getAllEmployee({ department_id });
-    return success.handler({ employees }, req, res, next);
-  } catch (err) {
-    return error.handler(err, req, res, next);
-  }
-};
 
-// Update Employee by ID
-const updateEmployee = async (req, res, next) => {
+//Update Employee by ID
+ const updateEmployee = async (req, res, next) => {
   const { employeeId } = req.params;
   try {
     const id = await getId.validateAsync(employeeId);
     const {
-      first_name, last_name, address, email_id, phone_no, enable,
+      first_name,last_name,address,email_id,phone_no,enable,
       version,
     } = await updateValidation.validateAsync({ ...req.body });
 
@@ -196,13 +103,7 @@ const updateEmployee = async (req, res, next) => {
       id,
     });
     const difference = checkChanges({
-      first_name,
-      last_name,
-      address,
-      email_id,
-      phone_no,
-      id,
-      enable,
+      first_name,last_name,address,email_id,phone_no,id,enable,
       version,
     }, item);
 
@@ -226,7 +127,5 @@ const updateEmployee = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next);
   }
-};
-module.exports = {
-  addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, updateEmployee, multipleUsers, deleteemp, getAllEmployees, addOne,
-};
+  };
+ module.exports = {addEmployee ,getEmployeeById ,deleteEmployee ,getAllEmployee ,updateEmployee, multipleUsers};
