@@ -11,5 +11,5 @@ module.exports = Joi.object()
       .name
       .required()
       .label('Department Name'),
-   
+
   });
