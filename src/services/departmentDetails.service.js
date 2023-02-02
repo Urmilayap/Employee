@@ -1,8 +1,7 @@
 const { sequelizeManager } = require('../managers');
 const { Op } = require('../managers');
-const { DepartmentDetailsModel } = sequelizeManager;
-const { Op } = require('sequelize');
-const { DepartmentDetailsModel,EmployeeDetailsModel,DepartmentModel } = sequelizeManager;
+
+const { DepartmentDetailsModel, DepartmentModel } = sequelizeManager;
 
 // Create Department Details
 const addDepartmentdetails = async ({
@@ -29,40 +28,27 @@ const getAll = async ({ page_size, page_no, min_income }) => {
   return DepartmentDetailsModel.findAll({ offset, limit, where });
 };
 
-//Get Department BY ID
+// Get Department BY ID
 const getById = async ({ id }) => {
-     const where = { department_details_id : id};
-     console.log(where);
-     const departmentdetails = await DepartmentDetailsModel.findOne({
-       where,
-       include: [
-         {
+  const where = { department_details_id: id };
+  console.log(where);
+  const departmentdetails = await DepartmentDetailsModel.findOne({
+    where,
+    include: [
+      {
 
-           model: DepartmentModel,
-         },
-       ],
-     });
-     if (!departmentdetails) {
-       return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departmentdetails' });
-     }
-     
-     return departmentdetails;
-    };
-  
+        model: DepartmentModel,
+      },
+    ],
+  });
+  if (!departmentdetails) {
+    // eslint-disable-next-line no-undef
+    return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departmentdetails' });
+  }
 
-//Get all departmentList
-const getAll = async ({ page_size, page_no, min_income}) => {
-  console.log({min_income});
-  const limit = page_size;
-  const offset = (page_no - 1) * limit; 
-  const where = {
-    min_income:{
-      [Op.gte]: `${min_income}`,
-    }
-  };
- 
-  return DepartmentDetailsModel.findAll({  offset, limit, where });
+  return departmentdetails;
 };
 
-module.exports = { addDepartmentdetails, getAllDepartmentdetails, getById, getAll};
-
+module.exports = {
+  addDepartmentdetails, getAllDepartmentdetails, getById, getAll,
+};

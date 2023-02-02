@@ -51,21 +51,21 @@ const deleteDepartment = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next);
   }
-}
-  };
-//Get all Departments List
-  const getAll = async (req, res, next) => {
-    const reqData = { ...req.query };
-     try {
-      const { page_size,page_no, min_income } = await getListValidation.validateAsync(reqData);
-      const departments = await departmentService.getAll({ page_size, page_no,min_income } );
-      return success.handler({ departments }, req, res, next);
-    }  catch (err) {
-      return error.handler(err, req, res, next);
-    }
-  };
+};
+
 // Get all Departments List
 const getAll = async (req, res, next) => {
+  const reqData = { ...req.query };
+  try {
+    const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
+    const departments = await departmentService.getAll({ page_size, page_no, min_income });
+    return success.handler({ departments }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
+// Get all Departments List
+const getAlls = async (req, res, next) => {
   const reqData = { ...req.query };
   if (reqData.ids) {
     reqData.ids = reqData.ids.split(';');
@@ -113,5 +113,5 @@ const updateDepartment = async (req, res, next) => {
 };
 
 module.exports = {
-  addDepartment, getById, deleteDepartment, getAll, updateDepartment,
+  addDepartment, getById, deleteDepartment, getAll, updateDepartment, getAlls,
 };

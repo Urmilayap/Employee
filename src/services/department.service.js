@@ -2,10 +2,8 @@ const { error } = require('@yapsody/lib-handlers');
 const { STATUS } = require('../consts');
 const { Op } = require('../managers');
 const { sequelizeManager } = require('../managers');
+
 const { DepartmentModel, DepartmentDetailsModel } = sequelizeManager;
-const { Op } = require('sequelize');
-const { sequelizeManager } = require('../managers');
-const { DepartmentModel,EmployeeDetailsModel,DepartmentDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 // Create Department
@@ -60,34 +58,36 @@ const getAll = async ({ min_income }) => {
   const include = {
     model: DepartmentDetailsModel,
   };
-const where = {
+  const where = {
     min_income: {
       [Op.eq]: `${min_income}`,
     },
   };
 
-return DepartmentModel.findAll({ where, include });
+  return DepartmentModel.findAll({ where, include });
+};
 
-//Get all departmentList
-const getAll = async ({ page_size, page_no, min_income }) => {
-  console.log({min_income});
+// Get all departmentList
+const getAlls = async ({ page_size, page_no, min_income }) => {
+  console.log({ min_income });
   const limit = page_size;
-  const offset = (page_no - 1) * limit; 
+  const offset = (page_no - 1) * limit;
 
   const include = {
-    model: DepartmentDetailsModel,  
-              };
+    model: DepartmentDetailsModel,
+  };
 
   const where = {
-    min_income:{
+    min_income: {
       [Op.gte]: `${min_income}`,
-    }
+    },
   };
- 
-  return DepartmentModel.findAll({  offset, limit, where, include});
 
+  return DepartmentModel.findAll({
+    offset, limit, where, include,
+  });
 };
 
 module.exports = {
-  addDepartment, getById, deleteDepartment, getAll,
+  addDepartment, getById, deleteDepartment, getAll, getAlls,
 };
