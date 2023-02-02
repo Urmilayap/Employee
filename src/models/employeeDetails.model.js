@@ -1,14 +1,14 @@
-// onst { STATUS, VERSION } = require('../consts');
+//onst { STATUS, VERSION } = require('../consts');
 
 module.exports = (sequelize, Sequelize) => sequelize.define('Employee', {
   employee_id: {
     type: Sequelize.INTEGER,
-    primaryKey: true,
+    primaryKey:true,
   },
   department_id: {
     type: Sequelize.INTEGER,
-    allowNull: true,
-  },
+    allowNull:true,
+    },
   first_name: {
     type: Sequelize.STRING(255),
     allowNull: false,
@@ -29,5 +29,7 @@ module.exports = (sequelize, Sequelize) => sequelize.define('Employee', {
     type: Sequelize.STRING(255),
     allowNull: false,
   },
-
+  
+  
+ 
 });
