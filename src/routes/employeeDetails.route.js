@@ -12,7 +12,7 @@ employeeDetailsRoutes.get('/', employeeDetailsController.getAllEmployee);
 employeeDetailsRoutes.get('/:employeeId/', employeeDetailsController.getEmployeeById);
 
 employeeDetailsRoutes.delete('/:employeeId/', employeeDetailsController.deleteEmployee);
-employeeDetailsRoutes.delete('/', employeeDetailsController.deleteemp);
+employeeDetailsRoutes.delete('/', employeeDetailsController.deleteEmp);
 
 employeeDetailsRoutes.put('/:employeeId/', employeeDetailsController.updateEmployee);
 

@@ -1,7 +1,7 @@
+const { Op } = require('sequelize');
 const { sequelizeManager } = require('../managers');
-const { Op } = require('../managers');
 
-const { DepartmentDetailsModel, DepartmentModel } = sequelizeManager;
+const { DepartmentDetailsModel, DepartmentModel, EmployeeDetailsModel } = sequelizeManager;
 
 // Create Department Details
 const addDepartmentdetails = async ({
@@ -20,12 +20,21 @@ const getAll = async ({ page_size, page_no, min_income }) => {
   console.log({ min_income });
   const limit = page_size;
   const offset = (page_no - 1) * limit;
+  const include = [{
+    model: DepartmentModel,
+    include: {
+      model: EmployeeDetailsModel,
+    },
+  }];
   const where = {
     min_income: {
       [Op.eq]: `${min_income}`,
     },
+
   };
-  return DepartmentDetailsModel.findAll({ offset, limit, where });
+  return DepartmentDetailsModel.findAll({
+    offset, limit, where, include,
+  });
 };
 
 // Get Department BY ID

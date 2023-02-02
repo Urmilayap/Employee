@@ -1,11 +1,9 @@
 /* eslint-disable camelcase */
 const { error } = require('@yapsody/lib-handlers');
-const { STATUS } = require('../consts');
 const { sequelizeManager } = require('../managers');
 const { Op } = require('../managers');
 
 const { EmployeeDetailsModel, DepartmentDetailsModel, DepartmentModel } = sequelizeManager;
-const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 // Create Employee Details
 const addEmployee = async ({
@@ -39,25 +37,17 @@ const getEmployeeById = async ({ id }) => {
 };
 
 // Delete Employee by ID
-const deleteEmployee = async ({ force_update }) => {
-  const data = await getEmployeeById({
+const deleteEmployee = async ({ employeelist, force_update }) => {
+  // eslint-disable-next-line no-undef
+  const employee = await EmployeeDetailsModel.findAll({
     // eslint-disable-next-line no-undef
-    id,
+    employeelist,
   });
   if (force_update) {
-    return data.destroy();
+    return employee.destroy();
   }
-  if (data.status === STATUS.ENABLED) {
-    return error.throwPreconditionFailed({
-      message: 'Enabled employee can\'t be deleted',
-      recovery: {
-        message: 'do you want to force delete?',
-        // eslint-disable-next-line no-undef
-        options: getDeleteRecoveryOptions({ employeeId: id }, true),
-      },
-    });
-  }
-  return data.destroy();
+
+  return employee.destroy();
 };
 
 // Get all Employees List

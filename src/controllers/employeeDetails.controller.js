@@ -116,7 +116,7 @@ const deleteEmployee = async (req, res, next) => {
   }
 };
 // Delete Employees with condition
-const deleteemp = async (req, res, next) => {
+const deleteEmp = async (req, res, next) => {
   const { force_update } = req.query;
   const reqData = { ...req.query };
   console.log('------->', reqData);
@@ -217,5 +217,5 @@ const updateEmployee = async (req, res, next) => {
   }
 };
 module.exports = {
-  addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, updateEmployee, multipleUsers, deleteemp, getAllEmployees, addOne,
+  addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, updateEmployee, multipleUsers, deleteEmp, getAllEmployees, addOne,
 };
