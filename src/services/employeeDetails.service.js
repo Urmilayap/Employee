@@ -36,12 +36,23 @@ const getEmployeeById = async ({ id }) => {
 };
 
 // Delete Employee by ID
-const deleteEmployee = async ({ employeelist, force_update }) => {
+const deleteEmployee = async ({ min_income, force_update }) => {
   // eslint-disable-next-line no-undef
   const employee = await EmployeeDetailsModel.findAll({
-    // eslint-disable-next-line no-undef
-    employeelist,
+    include: [
+      {
+        module: DepartmentModel,
+        include: [DepartmentDetailsModel],
+        where: {
+          min_income: {
+            [Op.eq]: `${min_income}`,
+          },
+        },
+      },
+    ],
   });
+  console.log('-------->', employee);
+
   if (force_update) {
     return employee.destroy();
   }

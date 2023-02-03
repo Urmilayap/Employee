@@ -44,7 +44,7 @@ const getAll = async ({ page_size, page_no, min_income }) => {
   const include = [{
     model: DepartmentModel,
     include: {
-      model: EmployeeDetailsModel,
+      model: [EmployeeDetailsModel],
     },
   }];
   const where = {

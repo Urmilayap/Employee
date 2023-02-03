@@ -119,14 +119,11 @@ const deleteEmployee = async (req, res, next) => {
 const deleteEmp = async (req, res, next) => {
   const { force_update } = req.query;
   const reqData = { ...req.query };
-  console.log('------->', reqData);
   try {
     const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
-    console.log('------->', min_income);
-    const employeelist = await departmentDetailsService.getAll({ page_size, page_no, min_income });
-    console.log(employeelist);
+    await departmentDetailsService.getAll({ page_size, page_no, min_income });
     await recoveryParamsValidation.validateAsync(force_update);
-    const employee = await employeeDetailsService.deleteEmployee({ employeelist });
+    const employee = await employeeDetailsService.deleteEmployee({ min_income });
     return success.handler({ employee }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
