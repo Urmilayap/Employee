@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 const { error, success } = require('@yapsody/lib-handlers');
 const { departmentDetailsService } = require('../services');
 const { departmentDetailsValidation, getId, getListValidation } = require('../validations');
@@ -35,14 +32,15 @@ const getAllDepartmentdetails = async (req, res, next) => {
     reqData.ids = reqData.ids.split(';');
   }
   try {
-    const validate = await getListValidation.validateAsync(reqData);
+    await getListValidation.validateAsync(reqData);
     const departments = await departmentDetailsService.getAllDepartmentdetails();
     return success.handler({ departments }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
   }
 };
-  // Get Department by ID
+
+// Get Department by ID
 const getById = async (req, res, next) => {
   const { departmentdetailsId } = req.params;
   try {
@@ -67,5 +65,5 @@ const getAll = async (req, res, next) => {
 };
 
 module.exports = {
-  addDepartmentdetails, getAllDepartmentdetails, getById, getAll,
+  addDepartmentdetails, getById, getAll, getAllDepartmentdetails,
 };

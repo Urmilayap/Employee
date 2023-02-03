@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 const { error } = require('@yapsody/lib-handlers');
+const { Op } = require('sequelize');
 const { sequelizeManager } = require('../managers');
-const { Op } = require('../managers');
 
 const { EmployeeDetailsModel, DepartmentDetailsModel, DepartmentModel } = sequelizeManager;
 
@@ -51,16 +50,6 @@ const deleteEmployee = async ({ employeelist, force_update }) => {
 };
 
 // Get all Employees List
-const getAllEmployee = async ({ department_id }) => {
-  const where = { };
-
-  if (department_id) {
-    where.department_id = department_id;
-  }
-  return EmployeeDetailsModel.findAll({ where });
-};
-
-// Get all Employees List
 const getAllEmployees = async ({
   page_no, page_size, first_name, department_id, min_income,
 }) => {
@@ -85,13 +74,13 @@ const getAllEmployees = async ({
     first_name: {
       [Op.startsWith]: `${first_name}`,
     },
-
   };
+
   return EmployeeDetailsModel.findAll({
     where, limit, offset, min_income, include,
   });
 };
 
 module.exports = {
-  addEmployee, getEmployeeById, deleteEmployee, getAllEmployee, multipleUsers, getAllEmployees,
+  addEmployee, getEmployeeById, getAllEmployees, multipleUsers, deleteEmployee,
 };

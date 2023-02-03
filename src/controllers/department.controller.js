@@ -95,7 +95,7 @@ const updateDepartment = async (req, res, next) => {
 
     if (item.version !== version) {
       error.throwPreconditionFailed({
-        message: 'Object has been updated since you last opened, do you want to reload the new version or overwrite existing changes done?',
+        message: 'Object has been updated since you last opened,do you want to reload the new version or overwrite existing changes done?',
         difference,
       });
     }
