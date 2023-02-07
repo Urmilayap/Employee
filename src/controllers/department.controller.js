@@ -3,6 +3,7 @@ const { checkChanges } = require('@yapsody/lib-utils');
 const { departmentService } = require('../services');
 const {
   departmentValidation, getId, getListValidation, updateDepartmentValidation, recoveryParamsValidation,
+  updateDepartmentdetailsValidation,
 } = require('../validations');
 
 // create Department
@@ -111,7 +112,27 @@ const updateDepartment = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
+const update = async (req, res, next) => {
+  const reqData = { ...req.query };
+  console.log(reqData);
+  try {
+    const { department_id } = await getListValidation.validateAsync(reqData);
+    const departmentlist = await departmentService.getById({ department_id });
+    // console.log('-----res', departmentlist);
+    // const result = res.body;
+    // console.log('----data', result);
+    const { min_income } = await updateDepartmentdetailsValidation.validateAsync({ ...req.body });
+    console.log('----->min', min_income);
+    const check = checkChanges({ min_income }, departmentlist);
+    console.log('------->check', check);
+    departmentlist.min_income = min_income + 1000;
+    const updated = await departmentlist.save();
+    return success.handler({ updated }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+};
 
 module.exports = {
-  addDepartment, getById, deleteDepartment, getAll, updateDepartment, getAlls,
+  addDepartment, getById, deleteDepartment, getAll, updateDepartment, getAlls, update,
 };

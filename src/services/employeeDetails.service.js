@@ -36,28 +36,14 @@ const getEmployeeById = async ({ id }) => {
 };
 
 // Delete Employee by ID
-const deleteEmployee = async ({ min_income, force_update }) => {
+const deleteEmployee = async ({ data, force_update }) => {
   // eslint-disable-next-line no-undef
-  const employee = await EmployeeDetailsModel.findAll({
-    include: [
-      {
-        module: DepartmentModel,
-        include: [DepartmentDetailsModel],
-        where: {
-          min_income: {
-            [Op.eq]: `${min_income}`,
-          },
-        },
-      },
-    ],
-  });
-  console.log('-------->', employee);
-
+  console.log('---data', data);
   if (force_update) {
-    return employee.destroy();
+    return data.destroy();
   }
 
-  return employee.destroy();
+  return data.destroy();
 };
 
 // Get all Employees List
@@ -92,6 +78,35 @@ const getAllEmployees = async ({
   });
 };
 
+const getAll = async ({
+  page_no, page_size, min_income,
+}) => {
+  const limit = page_size;
+  const offset = (page_no - 1) * limit;
+  const include = [{
+
+    model: DepartmentModel,
+    require: true,
+    include: [{
+      model: DepartmentDetailsModel,
+      require: true,
+      where: {
+        min_income: {
+          [Op.eq]: `${min_income}`,
+        },
+      },
+    }],
+  }];
+  console.log(include);
+  return EmployeeDetailsModel.findAll({
+    limit, offset, min_income, include,
+  });
+};
 module.exports = {
-  addEmployee, getEmployeeById, getAllEmployees, multipleUsers, deleteEmployee,
+  addEmployee,
+  getEmployeeById,
+  getAllEmployees,
+  multipleUsers,
+  deleteEmployee,
+  getAll,
 };

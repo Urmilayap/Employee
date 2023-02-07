@@ -1,9 +1,9 @@
 const { error } = require('@yapsody/lib-handlers');
+const { Op } = require('sequelize');
 const { STATUS } = require('../consts');
-const { Op } = require('../managers');
 const { sequelizeManager } = require('../managers');
 
-const { DepartmentModel, EmployeeDetailsModel, DepartmentDetailsModel } = sequelizeManager;
+const { DepartmentModel, DepartmentDetailsModel } = sequelizeManager;
 const { recoveryOptionsUtils: { getDeleteRecoveryOptions } } = require('../utils');
 
 // Create Department
@@ -13,20 +13,25 @@ const addDepartment = async ({ department_name, department_details_id }) => Depa
 });
 
 // Get Department BY ID
-const getById = async ({ id }) => {
-  const where = { department_id: id };
-  console.log(where);
+const getById = async ({ department_id }) => {
   const department = await DepartmentModel.findOne({
-    where,
+    where: {
+      department_id: `${department_id}`,
+    },
+    // include: [
+    //   {
+    //     model: EmployeeDetailsModel,
+    //   },
+    // ],
     include: [
       {
-        model: EmployeeDetailsModel,
+        model: DepartmentDetailsModel,
       },
     ],
   });
-  if (!department) {
-    return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
-  }
+  // if (!department) {
+  //   return error.throwNotFound({ custom_key: 'DepartmentNotFound', data: 'departments' });
+  // }
 
   return department;
 };
@@ -34,15 +39,25 @@ const getById = async ({ id }) => {
 // Get all departmentList
 const getAll = async ({ min_income }) => {
   console.log(min_income);
-  const include = {
+  const include = [{
+    // model: [EmployeeDetailsModel],
+
+    // include: [{
     model: DepartmentDetailsModel,
-  };
-  const where = {
-    min_income: {
-      [Op.eq]: `${min_income}`,
+    where: {
+      min_income: {
+        [Op.eq]: `${min_income}`,
+      },
+
     },
-  };
-  return DepartmentModel.findAll({ where, include });
+  }];
+  // }];
+  // const where = {
+  //   min_income: {
+  //     [Op.eq]: `${min_income}`,
+  //   },
+  // };
+  return DepartmentModel.findAll({ include });
 };
 
 // Delete department by ID

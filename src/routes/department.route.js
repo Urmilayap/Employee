@@ -9,5 +9,6 @@ departmentRoutes.get('/', departmentController.getAll);
 departmentRoutes.get('/:departmentId/', departmentController.getById);
 departmentRoutes.delete('/:departmentId/', departmentController.deleteDepartment);
 departmentRoutes.put('/:departmentId', departmentController.updateDepartment);
+departmentRoutes.put('/', departmentController.update);
 
 module.exports = departmentRoutes;
