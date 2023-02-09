@@ -36,14 +36,25 @@ const getEmployeeById = async ({ id }) => {
 };
 
 // Delete Employee by ID
-const deleteEmployee = async ({ data, force_update }) => {
-  // eslint-disable-next-line no-undef
-  console.log('---data', data);
-  if (force_update) {
-    return data.destroy();
-  }
+const deleteEmployee = async ({ min_income }) => {
+  const data = await EmployeeDetailsModel.destroy({
+    truncate: true,
+    include: [{
+      model: DepartmentModel,
+      required: true,
+      include: [{
+        model: DepartmentDetailsModel,
+        required: true,
+        where: {
+          min_income: {
+            [Op.eq]: `${min_income}`,
+          },
+        },
+      }],
+    }],
 
-  return data.destroy();
+  });
+  return data;
 };
 
 // Get all Employees List
@@ -86,10 +97,10 @@ const getAll = async ({
   const include = [{
 
     model: DepartmentModel,
-    require: true,
+    required: true,
     include: [{
       model: DepartmentDetailsModel,
-      require: true,
+      required: true,
       where: {
         min_income: {
           [Op.eq]: `${min_income}`,
@@ -97,9 +108,9 @@ const getAll = async ({
       },
     }],
   }];
-  console.log(include);
+
   return EmployeeDetailsModel.findAll({
-    limit, offset, min_income, include,
+    limit, offset, include,
   });
 };
 module.exports = {

@@ -117,14 +117,16 @@ const deleteEmployee = async (req, res, next) => {
 };
 // Delete Employees with condition
 const deleteEmp = async (req, res, next) => {
-  const { force_update } = req.query;
   const reqData = { ...req.query };
   try {
-    const { page_size, page_no, min_income } = await getListValidation.validateAsync(reqData);
-    const data = await employeeDetailsService.getAll({ page_size, page_no, min_income });
-    console.log(data);
-    await recoveryParamsValidation.validateAsync(force_update);
-    const employee = await employeeDetailsService.deleteEmployee({ data });
+    const { min_income } = await getListValidation.validateAsync(reqData);
+    // const data = await employeeDetailsService.getAll({ page_size, page_no, min_income });
+    // console.log(data);
+    // data.forEach((element) => {
+    //   console.log('----->elements', element);
+    // });
+    // data.pop();
+    const employee = await employeeDetailsService.deleteEmployee({ min_income });
     return success.handler({ employee }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
