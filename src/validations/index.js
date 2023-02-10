@@ -7,6 +7,8 @@ const departmentValidation = require('./add-Department.validation');
 const updateDepartmentValidation = require('./update-department.validation');
 const multipleUserValidation = require('./add-multiple.validation');
 const departmentDetailsValidation = require('./add-departmentDetails.validation');
+const addOneValidation = require('./add-one.validation');
+const updateDepartmentdetailsValidation = require('./update-departmentdetails.validation');
 
 module.exports = {
   employeeValidation,
@@ -18,4 +20,6 @@ module.exports = {
   updateDepartmentValidation,
   multipleUserValidation,
   departmentDetailsValidation,
+  addOneValidation,
+  updateDepartmentdetailsValidation,
 };
