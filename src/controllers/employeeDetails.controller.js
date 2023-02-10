@@ -128,7 +128,6 @@ const getAllEmployee = async (req, res, next) => {
   }
 };
 
-  };
 
   //Get all Employees List
   const getAllEmployee = async (req, res, next) => {
